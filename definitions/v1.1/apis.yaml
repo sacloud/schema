@@ -1,0 +1,188 @@
+openapi: "3.0.0"
+info:
+  title: SAKURA Cloud APIs
+  version: 1.0.0
+  description: This is a definitions for SAKURA Cloud APIs.
+  termsOfService: https://www.sakura.ad.jp/agreement/
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://secure.sakura.ad.jp/cloud/zone/{zone}/api/cloud/1.1
+    variables:
+      zone:
+        default: is1a
+        enum:
+          - is1a
+          - is1b
+          - tk1a
+          - tk1b
+          - tk1v
+paths:
+  /icon?{params}:
+    get:
+      summary: List all Icons
+      operationId: listIcons
+      tags:
+        - icons
+      parameters:
+        - in: path
+          name: "params"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ListIconParameter'
+      responses:
+        '200':
+          description: An array of icons
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Icons"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  /icon:
+    post:
+      summary: Create a icon
+      operationId: createIcons
+      tags:
+        - icons
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Icon"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  /icon/{iconId}:
+    get:
+      summary: Info for a specific Icon
+      operationId: showIconById
+      tags:
+        - icons
+      parameters:
+        - name: iconId
+          in: path
+          required: true
+          description: The id of the icon to retrieve
+          schema:
+            $ref: "#/components/schemas/ID"
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Icon"
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+security:
+  - basicAuth: [ ]
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    ListIconParameter:
+      type: object
+      additionalProperties: true
+      properties:
+        Filter:
+          $ref: "#/components/schemas/IconFilter"
+    IconFilter:
+      type: object
+      additionalProperties: true
+      properties:
+        Scope:
+          type: string
+          enum:
+            - user
+            - shared
+        Name:
+          type: array
+          items:
+            type: string
+        Tags.Name:
+          type: array
+          items:
+            type: string
+    ID:
+      oneOf:
+        - type: integer
+        - type: string
+      format: int64
+    Icon:
+      type: object
+      properties:
+        Availability:
+          type: string
+        CreatedAt:
+          type: string
+        ID:
+          $ref: "#/components/schemas/ID"
+        Index:
+          type: integer
+        ModifiedAt:
+          type: string
+        Name:
+          type: string
+        Scope:
+          type: string
+        Tags:
+          type: array
+          items:
+            type: string
+        URL:
+          type: string
+    Icons:
+      type: object
+      properties:
+        Count:
+          type: integer
+        From:
+          type: integer
+        Total:
+          type: integer
+        is_ok:
+          type: boolean
+        Icons:
+          type: array
+          items:
+            $ref: "#/components/schemas/Icon"
+    APIError:
+      type: object
+      properties:
+        is_fatal:
+          type: boolean
+        serial:
+          type: string
+        error_code:
+          type: string
+        error_msg:
+          type: string
+  responses:
+    UnauthorizedError:
+      description: Authentication information is missing or invalid
+      headers:
+        WWW_Authenticate:
+          schema:
+            type: string
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
+    UnexpectedError:
+      description: unexpected error
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/APIError"
