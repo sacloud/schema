@@ -1,9 +1,15 @@
 openapi: "3.0.0"
+tags:
+  - name: icons
+    description: Operations for Icon resource
 info:
   title: SAKURA Cloud APIs
   version: 1.0.0
   description: This is a definitions for SAKURA Cloud APIs.
   termsOfService: https://www.sakura.ad.jp/agreement/
+  contact:
+    name: Maintainers
+    url: https://github.com/sacloud/schema
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
@@ -22,11 +28,13 @@ paths:
   /icon?{params}:
     get:
       summary: List all Icons
+      description: List all Icons
       operationId: listIcons
       tags:
         - icons
       parameters:
         - in: path
+          required: true
           name: "params"
           content:
             application/json:
@@ -46,6 +54,7 @@ paths:
   /icon:
     post:
       summary: Create a icon
+      description: Create a icon
       operationId: createIcons
       tags:
         - icons
@@ -63,6 +72,7 @@ paths:
   /icon/{iconId}:
     get:
       summary: Info for a specific Icon
+      description: Info for a specific Icon
       operationId: showIconById
       tags:
         - icons
@@ -144,6 +154,15 @@ components:
         URL:
           type: string
     Icons:
+      allOf:
+        - $ref: "#/components/schemas/FindResultMeta"
+        - type: object
+          properties:
+            Icons:
+              type: array
+              items:
+                $ref: "#/components/schemas/Icon"
+    FindResultMeta:
       type: object
       properties:
         Count:
@@ -154,10 +173,6 @@ components:
           type: integer
         is_ok:
           type: boolean
-        Icons:
-          type: array
-          items:
-            $ref: "#/components/schemas/Icon"
     APIError:
       type: object
       properties:
