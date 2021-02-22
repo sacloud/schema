@@ -1,0 +1,24 @@
+get:
+  summary: Info for a specific Icon
+  description: Info for a specific Icon
+  operationId: showIconById
+  tags:
+    - icons
+  parameters:
+    - name: iconId
+      in: path
+      required: true
+      description: The id of the icon to retrieve
+      schema:
+        $ref: '../../components/schema/common/ID.yaml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/icon/Icon.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'

@@ -1,0 +1,9 @@
+description: Authentication information is missing or invalid
+headers:
+  WWW_Authenticate:
+    schema:
+      type: string
+content:
+  application/json:
+    schema:
+      $ref: "../schema/common/APIError.yaml"

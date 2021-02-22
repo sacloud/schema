@@ -1,0 +1,10 @@
+type: object
+properties:
+  Count:
+    type: integer
+  From:
+    type: integer
+  Total:
+    type: integer
+  is_ok:
+    type: boolean

@@ -1,0 +1,44 @@
+openapi: "3.0.3"
+tags:
+  - name: icons
+    description: Operations for Icon resource
+info:
+  title: SAKURA Cloud APIs
+  version: 1.0.0
+  description: This is a definitions for SAKURA Cloud APIs.
+  termsOfService: https://www.sakura.ad.jp/agreement/
+  contact:
+    name: Maintainers
+    url: https://github.com/sacloud/schema
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+servers:
+  - url: https://secure.sakura.ad.jp/cloud/zone/{zone}/api/cloud/1.1
+    variables:
+      zone:
+        default: is1a
+        enum:
+          - is1a
+          - is1b
+          - tk1a
+          - tk1b
+          - tk1v
+paths:
+  /icon?{params}:
+    $ref: './paths/icon/find.yaml'
+  /icon:
+    $ref: './paths/icon/create.yaml'
+  /icon/{iconId}:
+    $ref: './paths/icon/actions.yaml'
+security:
+  - basicAuth: [ ]
+components:
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+  schemas:
+    $ref: './components/schema/index.yaml'
+  responses:
+    $ref: './components/responses/index.yaml'

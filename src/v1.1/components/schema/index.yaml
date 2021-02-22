@@ -1,0 +1,17 @@
+# common
+ID:
+  $ref: './common/ID.yaml'
+FindResultMeta:
+  $ref: './common/FindResultMeta.yaml'
+APIError:
+  $ref: './common/APIError.yaml'
+
+# icon
+IconFindParameter:
+  $ref: './icon/IconFindParameter.yaml'
+IconFindFilter:
+  $ref: './icon/IconFindFilter.yaml'
+Icon:
+  $ref: './icon/Icon.yaml'
+Icons:
+  $ref: './icon/Icons.yaml'

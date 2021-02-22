@@ -1,0 +1,10 @@
+type: object
+properties:
+  is_fatal:
+    type: boolean
+  serial:
+    type: string
+  error_code:
+    type: string
+  error_msg:
+    type: string
