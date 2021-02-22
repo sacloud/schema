@@ -1,0 +1,22 @@
+type: object
+properties:
+  Availability:
+    type: string
+  CreatedAt:
+    type: string
+  ID:
+    $ref: "../common/ID.yaml"
+  Index:
+    type: integer
+  ModifiedAt:
+    type: string
+  Name:
+    type: string
+  Scope:
+    type: string
+  Tags:
+    type: array
+    items:
+      type: string
+  URL:
+    type: string

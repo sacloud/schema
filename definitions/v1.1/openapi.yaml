@@ -1,4 +1,4 @@
-openapi: "3.0.3"
+openapi: 3.0.3
 tags:
   - name: icons
     description: Operations for Icon resource
@@ -6,15 +6,15 @@ info:
   title: SAKURA Cloud APIs
   version: 1.0.0
   description: This is a definitions for SAKURA Cloud APIs.
-  termsOfService: https://www.sakura.ad.jp/agreement/
+  termsOfService: 'https://www.sakura.ad.jp/agreement/'
   contact:
     name: Maintainers
-    url: https://github.com/sacloud/schema
+    url: 'https://github.com/sacloud/schema'
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
 servers:
-  - url: https://secure.sakura.ad.jp/cloud/zone/{zone}/api/cloud/1.1
+  - url: 'https://secure.sakura.ad.jp/cloud/zone/{zone}/api/cloud/1.1'
     variables:
       zone:
         default: is1a
@@ -25,7 +25,7 @@ servers:
           - tk1b
           - tk1v
 paths:
-  /icon?{params}:
+  '/icon?{params}':
     get:
       summary: List all Icons
       description: List all Icons
@@ -35,18 +35,18 @@ paths:
       parameters:
         - in: path
           required: true
-          name: "params"
+          name: params
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ListIconParameter'
+                $ref: '#/components/schemas/IconFindParameter'
       responses:
         '200':
           description: An array of icons
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Icons"
+                $ref: '#/components/schemas/Icon'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
@@ -64,12 +64,12 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Icon"
+                $ref: '#/components/schemas/Icon'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
-  /icon/{iconId}:
+  '/icon/{iconId}':
     get:
       summary: Info for a specific Icon
       description: Info for a specific Icon
@@ -82,86 +82,31 @@ paths:
           required: true
           description: The id of the icon to retrieve
           schema:
-            $ref: "#/components/schemas/ID"
+            $ref: '#/components/schemas/ID'
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/Icon"
+                $ref: '#/components/schemas/Icon'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
 security:
-  - basicAuth: [ ]
+  - basicAuth: []
 components:
   securitySchemes:
     basicAuth:
       type: http
       scheme: basic
   schemas:
-    ListIconParameter:
-      type: object
-      additionalProperties: true
-      properties:
-        Filter:
-          $ref: "#/components/schemas/IconFilter"
-    IconFilter:
-      type: object
-      additionalProperties: true
-      properties:
-        Scope:
-          type: string
-          enum:
-            - user
-            - shared
-        Name:
-          type: array
-          items:
-            type: string
-        Tags.Name:
-          type: array
-          items:
-            type: string
     ID:
       oneOf:
         - type: integer
         - type: string
       format: int64
-    Icon:
-      type: object
-      properties:
-        Availability:
-          type: string
-        CreatedAt:
-          type: string
-        ID:
-          $ref: "#/components/schemas/ID"
-        Index:
-          type: integer
-        ModifiedAt:
-          type: string
-        Name:
-          type: string
-        Scope:
-          type: string
-        Tags:
-          type: array
-          items:
-            type: string
-        URL:
-          type: string
-    Icons:
-      allOf:
-        - $ref: "#/components/schemas/FindResultMeta"
-        - type: object
-          properties:
-            Icons:
-              type: array
-              items:
-                $ref: "#/components/schemas/Icon"
     FindResultMeta:
       type: object
       properties:
@@ -184,6 +129,61 @@ components:
           type: string
         error_msg:
           type: string
+    IconFindParameter:
+      type: object
+      additionalProperties: true
+      properties:
+        Filter:
+          $ref: '#/components/schemas/IconFindFilter'
+    IconFindFilter:
+      type: object
+      additionalProperties: true
+      properties:
+        Scope:
+          type: string
+          enum:
+            - user
+            - shared
+        Name:
+          type: array
+          items:
+            type: string
+        Tags.Name:
+          type: array
+          items:
+            type: string
+    Icon:
+      type: object
+      properties:
+        Availability:
+          type: string
+        CreatedAt:
+          type: string
+        ID:
+          $ref: '#/components/schemas/ID'
+        Index:
+          type: integer
+        ModifiedAt:
+          type: string
+        Name:
+          type: string
+        Scope:
+          type: string
+        Tags:
+          type: array
+          items:
+            type: string
+        URL:
+          type: string
+    Icons:
+      allOf:
+        - $ref: '#/components/schemas/FindResultMeta'
+        - type: object
+          properties:
+            Icons:
+              type: array
+              items:
+                $ref: '#/components/schemas/Icon'
   responses:
     UnauthorizedError:
       description: Authentication information is missing or invalid
@@ -194,10 +194,10 @@ components:
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/APIError"
+            $ref: '#/components/schemas/APIError'
     UnexpectedError:
       description: unexpected error
       content:
         application/json:
           schema:
-            $ref: "#/components/schemas/APIError"
+            $ref: '#/components/schemas/APIError'

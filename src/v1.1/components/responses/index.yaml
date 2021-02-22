@@ -1,0 +1,4 @@
+UnauthorizedError:
+  $ref: "./401.yaml"
+UnexpectedError:
+  $ref: "./default.yaml"

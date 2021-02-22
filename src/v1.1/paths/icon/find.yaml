@@ -1,0 +1,25 @@
+get:
+  summary: List all Icons
+  description: List all Icons
+  operationId: listIcons
+  tags:
+    - icons
+  parameters:
+    - in: path
+      required: true
+      name: "params"
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/icon/IconFindParameter.yaml'
+  responses:
+    '200':
+      description: An array of icons
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/icon/Icon.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'
