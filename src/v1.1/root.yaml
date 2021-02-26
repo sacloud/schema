@@ -4,12 +4,13 @@ tags:
     description: Operations for Icon resource
 info:
   title: SAKURA Cloud APIs
-  version: 1.0.0
+  version: 0.0.1
   description: This is a definitions for SAKURA Cloud APIs.
   termsOfService: https://www.sakura.ad.jp/agreement/
   contact:
     name: Maintainers
     url: https://github.com/sacloud/schema
+    email: sacloud.users@gmail.com
   license:
     name: Apache 2.0
     url: http://www.apache.org/licenses/LICENSE-2.0.html
