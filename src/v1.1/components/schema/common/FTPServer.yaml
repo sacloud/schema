@@ -1,0 +1,9 @@
+type: object
+properties:
+  HostName:
+    type: string
+  IPAddress:
+    type: string
+required:
+  - HostName
+  - IPAddress

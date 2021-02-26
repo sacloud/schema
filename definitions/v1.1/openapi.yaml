@@ -4,6 +4,8 @@ tags:
     description: Operations for Icon resource
   - name: regions
     description: Operations for Region resource
+  - name: zones
+    description: Operations for Zone resource
 info:
   title: SAKURA Cloud APIs
   version: 0.0.1
@@ -184,6 +186,57 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  '/zone?{params}':
+    get:
+      summary: List all Zones
+      description: List all Zones
+      operationId: listZones
+      tags:
+        - zones
+      parameters:
+        - in: path
+          required: true
+          name: params
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ZoneFindParameter'
+      responses:
+        '200':
+          description: An array of zones
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zones'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/zone/{zoneId}':
+    get:
+      summary: Info for a specific Zone
+      description: Info for a specific Zone
+      operationId: showZoneById
+      tags:
+        - zones
+      parameters:
+        - name: zoneId
+          in: path
+          required: true
+          description: The id of the zone to retrieve
+          schema:
+            $ref: '#/components/schemas/ID'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Zone'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 security:
   - basicAuth: []
 components:
@@ -192,22 +245,6 @@ components:
       type: http
       scheme: basic
   schemas:
-    ID:
-      oneOf:
-        - type: integer
-        - type: string
-      format: int64
-    FindResultMeta:
-      type: object
-      properties:
-        Count:
-          type: integer
-        From:
-          type: integer
-        Total:
-          type: integer
-        is_ok:
-          type: boolean
     APIError:
       type: object
       properties:
@@ -219,26 +256,64 @@ components:
           type: string
         error_msg:
           type: string
+    FindRequest:
+      type: object
+      properties:
+        Count:
+          type: integer
+        Exclude:
+          items:
+            type: string
+          type: array
+        From:
+          type: integer
+        Include:
+          items:
+            type: string
+          type: array
+        Sort:
+          items:
+            type: string
+          type: array
+    FindResultMeta:
+      type: object
+      properties:
+        Count:
+          type: integer
+        From:
+          type: integer
+        Total:
+          type: integer
+        is_ok:
+          type: boolean
+    FTPServer:
+      type: object
+      properties:
+        HostName:
+          type: string
+        IPAddress:
+          type: string
+      required:
+        - HostName
+        - IPAddress
+    ID:
+      oneOf:
+        - type: integer
+        - type: string
+      format: int64
+    VNCProxy:
+      type: object
+      properties:
+        HostName:
+          type: string
+        IPAddress:
+          type: string
+      required:
+        - HostName
+        - IPAddress
     IconFindParameter:
       allOf:
-        - type: object
-          properties:
-            Count:
-              type: integer
-            Exclude:
-              items:
-                type: string
-              type: array
-            From:
-              type: integer
-            Include:
-              items:
-                type: string
-              type: array
-            Sort:
-              items:
-                type: string
-              type: array
+        - $ref: '#/components/schemas/FindRequest'
         - type: object
           additionalProperties: true
           properties:
@@ -288,6 +363,7 @@ components:
           type: string
         CreatedAt:
           type: string
+          format: date-time
         ID:
           $ref: '#/components/schemas/ID'
         ModifiedAt:
@@ -318,7 +394,7 @@ components:
                         type: integer
     RegionFindParameter:
       allOf:
-        - $ref: '#/components/schemas/IconFindParameter/allOf/0'
+        - $ref: '#/components/schemas/FindRequest'
         - type: object
           additionalProperties: true
           properties:
@@ -355,6 +431,70 @@ components:
               items:
                 allOf:
                   - $ref: '#/components/schemas/Region'
+                  - type: object
+                    properties:
+                      Index:
+                        type: integer
+    ZoneFindParameter:
+      allOf:
+        - $ref: '#/components/schemas/FindRequest'
+        - type: object
+          additionalProperties: true
+          properties:
+            Filter:
+              $ref: '#/components/schemas/ZoneFindFilter'
+    ZoneFindFilter:
+      type: object
+      additionalProperties: true
+      properties:
+        Name:
+          type: array
+          items:
+            type: string
+        ID:
+          type: array
+          items:
+            type: string
+        Region.Name:
+          type: array
+          items:
+            type: string
+        Region.ID:
+          type: array
+          items:
+            type: string
+    Zone:
+      type: object
+      properties:
+        CreatedAt:
+          type: string
+          format: date-time
+        Description:
+          type: string
+        DisplayOrder:
+          type: integer
+        FTPServer:
+          $ref: '#/components/schemas/FTPServer'
+        ID:
+          $ref: '#/components/schemas/ID'
+        Name:
+          type: string
+        Region:
+          $ref: '#/components/schemas/Region'
+        VNCProxy:
+          $ref: '#/components/schemas/VNCProxy'
+        IsDummy:
+          type: boolean
+    Zones:
+      allOf:
+        - $ref: '#/components/schemas/FindResultMeta'
+        - type: object
+          properties:
+            Regions:
+              type: array
+              items:
+                allOf:
+                  - $ref: '#/components/schemas/Zone'
                   - type: object
                     properties:
                       Index:

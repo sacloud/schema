@@ -1,0 +1,19 @@
+type: object
+additionalProperties: true
+properties:
+  Name:
+    type: array
+    items:
+      type: string
+  ID:
+    type: array
+    items:
+      type: string
+  Region.Name:
+    type: array
+    items:
+      type: string
+  Region.ID:
+    type: array
+    items:
+      type: string
