@@ -6,8 +6,6 @@ properties:
     type: string
   ID:
     $ref: "../common/ID.yaml"
-  Index:
-    type: integer
   ModifiedAt:
     type: string
   Name:
