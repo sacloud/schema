@@ -1,0 +1,24 @@
+get:
+  summary: Info for a specific Region
+  description: Info for a specific Region
+  operationId: showRegionById
+  tags:
+    - regions
+  parameters:
+    - name: regionId
+      in: path
+      required: true
+      description: The id of the region to retrieve
+      schema:
+        $ref: '../../components/schema/common/ID.yaml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/region/Region.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'

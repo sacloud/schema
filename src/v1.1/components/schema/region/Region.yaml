@@ -1,0 +1,12 @@
+type: object
+properties:
+  Description:
+    type: string
+  ID:
+    type: integer
+  Name:
+    type: string
+  NameServers:
+    items:
+      type: string
+    type: array

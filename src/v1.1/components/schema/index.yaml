@@ -19,3 +19,13 @@ Icon:
   $ref: './icon/Icon.yaml'
 Icons:
   $ref: './icon/Icons.yaml'
+
+# region
+RegionFindParameter:
+  $ref: './region/Find.yaml'
+RegionFindFilter:
+  $ref: './region/Filter.yaml'
+Region:
+  $ref: './region/Region.yaml'
+Regions:
+  $ref: './region/Regions.yaml'
