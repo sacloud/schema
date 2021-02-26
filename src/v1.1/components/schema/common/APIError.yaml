@@ -4,7 +4,15 @@ properties:
     type: boolean
   serial:
     type: string
+  status:
+    type: string
   error_code:
     type: string
   error_msg:
     type: string
+required:
+  - is_fatal
+  - serial
+  - status
+  - error_code
+  - error_msg

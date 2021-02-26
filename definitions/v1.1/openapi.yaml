@@ -252,10 +252,18 @@ components:
           type: boolean
         serial:
           type: string
+        status:
+          type: string
         error_code:
           type: string
         error_msg:
           type: string
+      required:
+        - is_fatal
+        - serial
+        - status
+        - error_code
+        - error_msg
     FindRequest:
       type: object
       properties:
@@ -286,6 +294,11 @@ components:
           type: integer
         is_ok:
           type: boolean
+      required:
+        - Count
+        - From
+        - Total
+        - is_ok
     FTPServer:
       type: object
       properties:
@@ -349,6 +362,9 @@ components:
             type: string
         Image:
           type: string
+      required:
+        - Name
+        - Image
     IconUpdateParameter:
       type: object
       properties:
@@ -380,6 +396,15 @@ components:
             type: string
         URL:
           type: string
+      required:
+        - Availability
+        - CreatedAt
+        - ID
+        - ModifiedAt
+        - Name
+        - Scope
+        - Tags
+        - URL
     Icons:
       allOf:
         - $ref: '#/components/schemas/FindResultMeta'
@@ -394,6 +419,10 @@ components:
                     properties:
                       Index:
                         type: integer
+                    required:
+                      - Index
+          required:
+            - Icons
     RegionFindParameter:
       allOf:
         - $ref: '#/components/schemas/FindRequest'
@@ -423,6 +452,11 @@ components:
           items:
             type: string
           type: array
+      required:
+        - Description
+        - ID
+        - Name
+        - NameServers
     Regions:
       allOf:
         - $ref: '#/components/schemas/FindResultMeta'
@@ -437,6 +471,10 @@ components:
                     properties:
                       Index:
                         type: integer
+                    required:
+                      - Index
+          required:
+            - Regions
     ZoneFindParameter:
       allOf:
         - $ref: '#/components/schemas/FindRequest'
@@ -487,6 +525,16 @@ components:
           $ref: '#/components/schemas/VNCProxy'
         IsDummy:
           type: boolean
+      required:
+        - CreatedAt
+        - Description
+        - DisplayOrder
+        - FTPServer
+        - ID
+        - Name
+        - Region
+        - VNCProxy
+        - IsDummy
     Zones:
       allOf:
         - $ref: '#/components/schemas/FindResultMeta'
@@ -501,6 +549,10 @@ components:
                     properties:
                       Index:
                         type: integer
+                    required:
+                      - Index
+          required:
+            - Regions
   responses:
     UnauthorizedError:
       description: Unauthorized

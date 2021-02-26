@@ -11,3 +11,7 @@ allOf:
               properties:
                 Index:
                   type: integer
+              required:
+                - Index
+    required:
+      - Regions

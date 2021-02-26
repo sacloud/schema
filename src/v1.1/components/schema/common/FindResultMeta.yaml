@@ -8,3 +8,8 @@ properties:
     type: integer
   is_ok:
     type: boolean
+required:
+  - Count
+  - From
+  - Total
+  - is_ok

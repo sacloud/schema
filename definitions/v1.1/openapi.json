@@ -398,13 +398,23 @@
           "serial": {
             "type": "string"
           },
+          "status": {
+            "type": "string"
+          },
           "error_code": {
             "type": "string"
           },
           "error_msg": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "is_fatal",
+          "serial",
+          "status",
+          "error_code",
+          "error_msg"
+        ]
       },
       "FindRequest": {
         "type": "object",
@@ -450,7 +460,13 @@
           "is_ok": {
             "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "Count",
+          "From",
+          "Total",
+          "is_ok"
+        ]
       },
       "FTPServer": {
         "type": "object",
@@ -552,7 +568,11 @@
           "Image": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "Name",
+          "Image"
+        ]
       },
       "IconUpdateParameter": {
         "type": "object",
@@ -599,7 +619,17 @@
           "URL": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "Availability",
+          "CreatedAt",
+          "ID",
+          "ModifiedAt",
+          "Name",
+          "Scope",
+          "Tags",
+          "URL"
+        ]
       },
       "Icons": {
         "allOf": [
@@ -622,12 +652,18 @@
                         "Index": {
                           "type": "integer"
                         }
-                      }
+                      },
+                      "required": [
+                        "Index"
+                      ]
                     }
                   ]
                 }
               }
-            }
+            },
+            "required": [
+              "Icons"
+            ]
           }
         ]
       },
@@ -677,7 +713,13 @@
             },
             "type": "array"
           }
-        }
+        },
+        "required": [
+          "Description",
+          "ID",
+          "Name",
+          "NameServers"
+        ]
       },
       "Regions": {
         "allOf": [
@@ -700,12 +742,18 @@
                         "Index": {
                           "type": "integer"
                         }
-                      }
+                      },
+                      "required": [
+                        "Index"
+                      ]
                     }
                   ]
                 }
               }
-            }
+            },
+            "required": [
+              "Regions"
+            ]
           }
         ]
       },
@@ -786,7 +834,18 @@
           "IsDummy": {
             "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "CreatedAt",
+          "Description",
+          "DisplayOrder",
+          "FTPServer",
+          "ID",
+          "Name",
+          "Region",
+          "VNCProxy",
+          "IsDummy"
+        ]
       },
       "Zones": {
         "allOf": [
@@ -809,12 +868,18 @@
                         "Index": {
                           "type": "integer"
                         }
-                      }
+                      },
+                      "required": [
+                        "Index"
+                      ]
                     }
                   ]
                 }
               }
-            }
+            },
+            "required": [
+              "Regions"
+            ]
           }
         ]
       }
