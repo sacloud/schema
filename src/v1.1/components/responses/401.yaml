@@ -1,4 +1,4 @@
-description: Authentication information is missing or invalid
+description: Unauthorized
 headers:
   WWW_Authenticate:
     schema:
