@@ -4,6 +4,12 @@ post:
   operationId: createIcons
   tags:
     - icons
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schema/icon/Create.yaml'
   responses:
     '200':
       description: Expected response to a valid request

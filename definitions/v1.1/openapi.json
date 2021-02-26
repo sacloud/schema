@@ -88,6 +88,16 @@
         "tags": [
           "icons"
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IconCreateParameter"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Expected response to a valid request",
@@ -127,6 +137,53 @@
             }
           }
         ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Icon"
+                }
+              }
+            }
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update Icon",
+        "description": "UpdateIcon",
+        "operationId": "updateIconById",
+        "tags": [
+          "icons"
+        ],
+        "parameters": [
+          {
+            "name": "iconId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the icon to retrieve",
+            "schema": {
+              "$ref": "#/components/schemas/ID"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/IconUpdateParameter"
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Expected response to a valid request",
@@ -233,6 +290,37 @@
             }
           },
           "Tags.Name": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "IconCreateParameter": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Image": {
+            "type": "string"
+          }
+        }
+      },
+      "IconUpdateParameter": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Tags": {
             "type": "array",
             "items": {
               "type": "string"

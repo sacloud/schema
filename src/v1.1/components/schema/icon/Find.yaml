@@ -2,4 +2,4 @@ type: object
 additionalProperties: true
 properties:
   Filter:
-    $ref: "./IconFindFilter.yaml"
+    $ref: "./Filter.yaml"

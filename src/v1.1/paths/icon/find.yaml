@@ -11,7 +11,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/IconFindParameter.yaml'
+            $ref: '../../components/schema/icon/Find.yaml'
   responses:
     '200':
       description: An array of icons
