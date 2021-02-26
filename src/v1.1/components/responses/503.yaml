@@ -1,4 +1,4 @@
-description: Unexpected Error
+description: Service Unavailable
 content:
   application/json:
     schema:

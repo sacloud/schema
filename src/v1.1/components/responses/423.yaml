@@ -1,4 +1,4 @@
-description: Unexpected Error
+description: Locked
 content:
   application/json:
     schema:

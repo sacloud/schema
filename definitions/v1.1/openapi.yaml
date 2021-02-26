@@ -353,7 +353,7 @@ components:
                 $ref: '#/components/schemas/Region'
   responses:
     UnauthorizedError:
-      description: Authentication information is missing or invalid
+      description: Unauthorized
       headers:
         WWW_Authenticate:
           schema:
@@ -363,7 +363,7 @@ components:
           schema:
             $ref: '#/components/schemas/APIError'
     UnexpectedError:
-      description: unexpected error
+      description: Unexpected Error
       content:
         application/json:
           schema:
