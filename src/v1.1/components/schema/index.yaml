@@ -1,10 +1,16 @@
 # common
-ID:
-  $ref: './common/ID.yaml'
-FindResultMeta:
-  $ref: './common/FindResultMeta.yaml'
 APIError:
   $ref: './common/APIError.yaml'
+FindRequest:
+  $ref: './common/FindRequest.yaml'
+FindResultMeta:
+  $ref: './common/FindResultMeta.yaml'
+FTPServer:
+  $ref: './common/FTPServer.yaml'
+ID:
+  $ref: './common/ID.yaml'
+VNCProxy:
+  $ref: './common/VNCProxy.yaml'
 
 # icon
 IconFindParameter:
@@ -29,3 +35,13 @@ Region:
   $ref: './region/Region.yaml'
 Regions:
   $ref: './region/Regions.yaml'
+
+# zone
+ZoneFindParameter:
+  $ref: './zone/Find.yaml'
+ZoneFindFilter:
+  $ref: './zone/Filter.yaml'
+Zone:
+  $ref: './zone/Zone.yaml'
+Zones:
+  $ref: './zone/Zones.yaml'

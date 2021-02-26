@@ -1,0 +1,21 @@
+type: object
+properties:
+  CreatedAt:
+    type: string
+    format: "date-time"
+  Description:
+    type: string
+  DisplayOrder:
+    type: integer
+  FTPServer:
+    $ref: '../common/FTPServer.yaml'
+  ID:
+    $ref: '../common/ID.yaml'
+  Name:
+    type: string
+  Region:
+    $ref: '../region/Region.yaml'
+  VNCProxy:
+    $ref: '../common/VNCProxy.yaml'
+  IsDummy:
+    type: boolean

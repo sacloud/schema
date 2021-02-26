@@ -4,6 +4,8 @@ tags:
     description: Operations for Icon resource
   - name: regions
     description: Operations for Region resource
+  - name: zones
+    description: Operations for Zone resource
 info:
   title: SAKURA Cloud APIs
   version: 0.0.1
@@ -40,6 +42,11 @@ paths:
     $ref: './paths/region/find.yaml'
   /region/{regionId}:
     $ref: './paths/region/actions.yaml'
+  # /zone
+  /zone?{params}:
+    $ref: './paths/zone/find.yaml'
+  /zone/{zoneId}:
+    $ref: './paths/zone/actions.yaml'
 security:
   - basicAuth: [ ]
 components:

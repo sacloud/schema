@@ -1,0 +1,25 @@
+get:
+  summary: List all Zones
+  description: List all Zones
+  operationId: listZones
+  tags:
+    - zones
+  parameters:
+    - in: path
+      required: true
+      name: "params"
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/zone/Find.yaml'
+  responses:
+    '200':
+      description: An array of zones
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/zone/Zones.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'

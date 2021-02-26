@@ -1,0 +1,24 @@
+get:
+  summary: Info for a specific Zone
+  description: Info for a specific Zone
+  operationId: showZoneById
+  tags:
+    - zones
+  parameters:
+    - name: zoneId
+      in: path
+      required: true
+      description: The id of the zone to retrieve
+      schema:
+        $ref: '../../components/schema/common/ID.yaml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/zone/Zone.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'
