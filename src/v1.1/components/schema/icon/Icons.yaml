@@ -1,17 +1,10 @@
-allOf:
-  - $ref: "../common/FindResultMeta.yaml"
-  - type: object
-    properties:
-      Icons:
-        type: array
-        items:
-          allOf:
-            - $ref: "./Icon.yaml"
-            - type: object
-              properties:
-                Index:
-                  type: integer
-              required:
-                - Index
-    required:
-      - Icons
+type: array
+items:
+  allOf:
+    - $ref: "./Icon.yaml"
+    - type: object
+      properties:
+        Index:
+          type: integer
+      required:
+        - Index

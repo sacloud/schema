@@ -18,7 +18,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/region/Regions.yaml'
+            $ref: '../../components/schema/region/Found.yaml'
     '401':
       $ref: '../../components/responses/401.yaml'
     default:
