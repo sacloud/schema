@@ -49,7 +49,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Icon'
+                $ref: '#/components/schemas/Icons'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
@@ -154,7 +154,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Region'
+                $ref: '#/components/schemas/Regions'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
@@ -290,8 +290,6 @@ components:
           type: string
         ID:
           $ref: '#/components/schemas/ID'
-        Index:
-          type: integer
         ModifiedAt:
           type: string
         Name:
@@ -312,7 +310,12 @@ components:
             Icons:
               type: array
               items:
-                $ref: '#/components/schemas/Icon'
+                allOf:
+                  - $ref: '#/components/schemas/Icon'
+                  - type: object
+                    properties:
+                      Index:
+                        type: integer
     RegionFindParameter:
       allOf:
         - $ref: '#/components/schemas/IconFindParameter/allOf/0'
@@ -350,7 +353,12 @@ components:
             Regions:
               type: array
               items:
-                $ref: '#/components/schemas/Region'
+                allOf:
+                  - $ref: '#/components/schemas/Region'
+                  - type: object
+                    properties:
+                      Index:
+                        type: integer
   responses:
     UnauthorizedError:
       description: Unauthorized

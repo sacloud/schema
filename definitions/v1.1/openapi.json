@@ -71,7 +71,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Icon"
+                  "$ref": "#/components/schemas/Icons"
                 }
               }
             }
@@ -237,7 +237,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Region"
+                  "$ref": "#/components/schemas/Regions"
                 }
               }
             }
@@ -459,9 +459,6 @@
           "ID": {
             "$ref": "#/components/schemas/ID"
           },
-          "Index": {
-            "type": "integer"
-          },
           "ModifiedAt": {
             "type": "string"
           },
@@ -493,7 +490,19 @@
               "Icons": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Icon"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Icon"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "Index": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -559,7 +568,19 @@
               "Regions": {
                 "type": "array",
                 "items": {
-                  "$ref": "#/components/schemas/Region"
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/Region"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "Index": {
+                          "type": "integer"
+                        }
+                      }
+                    }
+                  ]
                 }
               }
             }

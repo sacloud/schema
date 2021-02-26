@@ -18,7 +18,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/Icon.yaml'
+            $ref: '../../components/schema/icon/Icons.yaml'
     '401':
       $ref: '../../components/responses/401.yaml'
     default:
