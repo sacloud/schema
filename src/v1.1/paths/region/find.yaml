@@ -1,0 +1,25 @@
+get:
+  summary: List all Regions
+  description: List all Regions
+  operationId: listRegions
+  tags:
+    - regions
+  parameters:
+    - in: path
+      required: true
+      name: "params"
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/region/Find.yaml'
+  responses:
+    '200':
+      description: An array of regions
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/region/Region.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'

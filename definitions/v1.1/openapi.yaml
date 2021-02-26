@@ -2,6 +2,8 @@ openapi: 3.0.3
 tags:
   - name: icons
     description: Operations for Icon resource
+  - name: regions
+    description: Operations for Region resource
 info:
   title: SAKURA Cloud APIs
   version: 0.0.1
@@ -131,6 +133,57 @@ paths:
           $ref: '#/components/responses/UnauthorizedError'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  '/region?{params}':
+    get:
+      summary: List all Regions
+      description: List all Regions
+      operationId: listRegions
+      tags:
+        - regions
+      parameters:
+        - in: path
+          required: true
+          name: params
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RegionFindParameter'
+      responses:
+        '200':
+          description: An array of regions
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Region'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+  '/region/{regionId}':
+    get:
+      summary: Info for a specific Region
+      description: Info for a specific Region
+      operationId: showRegionById
+      tags:
+        - regions
+      parameters:
+        - name: regionId
+          in: path
+          required: true
+          description: The id of the region to retrieve
+          schema:
+            $ref: '#/components/schemas/ID'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Region'
+        '401':
+          $ref: '#/components/responses/UnauthorizedError'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
 security:
   - basicAuth: []
 components:
@@ -167,11 +220,30 @@ components:
         error_msg:
           type: string
     IconFindParameter:
-      type: object
-      additionalProperties: true
-      properties:
-        Filter:
-          $ref: '#/components/schemas/IconFindFilter'
+      allOf:
+        - type: object
+          properties:
+            Count:
+              type: integer
+            Exclude:
+              items:
+                type: string
+              type: array
+            From:
+              type: integer
+            Include:
+              items:
+                type: string
+              type: array
+            Sort:
+              items:
+                type: string
+              type: array
+        - type: object
+          additionalProperties: true
+          properties:
+            Filter:
+              $ref: '#/components/schemas/IconFindFilter'
     IconFindFilter:
       type: object
       additionalProperties: true
@@ -241,6 +313,44 @@ components:
               type: array
               items:
                 $ref: '#/components/schemas/Icon'
+    RegionFindParameter:
+      allOf:
+        - $ref: '#/components/schemas/IconFindParameter/allOf/0'
+        - type: object
+          additionalProperties: true
+          properties:
+            Filter:
+              $ref: '#/components/schemas/RegionFindFilter'
+    RegionFindFilter:
+      type: object
+      additionalProperties: true
+      properties:
+        Name:
+          type: array
+          items:
+            type: string
+    Region:
+      type: object
+      properties:
+        Description:
+          type: string
+        ID:
+          type: integer
+        Name:
+          type: string
+        NameServers:
+          items:
+            type: string
+          type: array
+    Regions:
+      allOf:
+        - $ref: '#/components/schemas/FindResultMeta'
+        - type: object
+          properties:
+            Regions:
+              type: array
+              items:
+                $ref: '#/components/schemas/Region'
   responses:
     UnauthorizedError:
       description: Authentication information is missing or invalid

@@ -2,6 +2,8 @@ openapi: "3.0.3"
 tags:
   - name: icons
     description: Operations for Icon resource
+  - name: regions
+    description: Operations for Region resource
 info:
   title: SAKURA Cloud APIs
   version: 0.0.1
@@ -26,12 +28,18 @@ servers:
           - tk1b
           - tk1v
 paths:
+  # /icon
   /icon?{params}:
     $ref: './paths/icon/find.yaml'
   /icon:
     $ref: './paths/icon/create.yaml'
   /icon/{iconId}:
     $ref: './paths/icon/actions.yaml'
+  # /region
+  /region?{params}:
+    $ref: './paths/region/find.yaml'
+  /region/{regionId}:
+    $ref: './paths/region/actions.yaml'
 security:
   - basicAuth: [ ]
 components:
