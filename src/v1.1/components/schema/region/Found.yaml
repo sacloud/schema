@@ -1,0 +1,8 @@
+allOf:
+  - $ref: "../common/FindResultMeta.yaml"
+  - type: object
+    properties:
+      Regions:
+        $ref: './Regions.yaml'
+    required:
+      - Regions

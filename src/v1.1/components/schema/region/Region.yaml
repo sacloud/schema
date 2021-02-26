@@ -10,3 +10,8 @@ properties:
     items:
       type: string
     type: array
+required:
+  - Description
+  - ID
+  - Name
+  - NameServers

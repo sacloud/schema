@@ -9,12 +9,16 @@ FTPServer:
   $ref: './common/FTPServer.yaml'
 ID:
   $ref: './common/ID.yaml'
+Scope:
+  $ref: './common/Scope.yaml'
 VNCProxy:
   $ref: './common/VNCProxy.yaml'
 
 # icon
 IconFindParameter:
   $ref: './icon/Find.yaml'
+IconFindResult:
+  $ref: './icon/Found.yaml'
 IconFindFilter:
   $ref: './icon/Filter.yaml'
 IconCreateParameter:
@@ -29,6 +33,8 @@ Icons:
 # region
 RegionFindParameter:
   $ref: './region/Find.yaml'
+RegionFindResult:
+  $ref: './region/Found.yaml'
 RegionFindFilter:
   $ref: './region/Filter.yaml'
 Region:
@@ -39,6 +45,8 @@ Regions:
 # zone
 ZoneFindParameter:
   $ref: './zone/Find.yaml'
+ZoneFindResult:
+  $ref: './zone/Found.yaml'
 ZoneFindFilter:
   $ref: './zone/Filter.yaml'
 Zone:

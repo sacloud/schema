@@ -51,7 +51,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Icons'
+                $ref: '#/components/schemas/IconFindResult'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
@@ -156,7 +156,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Regions'
+                $ref: '#/components/schemas/RegionFindResult'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
@@ -207,7 +207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Zones'
+                $ref: '#/components/schemas/ZoneFindResult'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
         default:
@@ -252,10 +252,18 @@ components:
           type: boolean
         serial:
           type: string
+        status:
+          type: string
         error_code:
           type: string
         error_msg:
           type: string
+      required:
+        - is_fatal
+        - serial
+        - status
+        - error_code
+        - error_msg
     FindRequest:
       type: object
       properties:
@@ -286,6 +294,11 @@ components:
           type: integer
         is_ok:
           type: boolean
+      required:
+        - Count
+        - From
+        - Total
+        - is_ok
     FTPServer:
       type: object
       properties:
@@ -301,6 +314,11 @@ components:
         - type: integer
         - type: string
       format: int64
+    Scope:
+      type: string
+      enum:
+        - user
+        - shared
     VNCProxy:
       type: object
       properties:
@@ -319,15 +337,21 @@ components:
           properties:
             Filter:
               $ref: '#/components/schemas/IconFindFilter'
+    IconFindResult:
+      allOf:
+        - $ref: '#/components/schemas/FindResultMeta'
+        - type: object
+          properties:
+            Icons:
+              $ref: '#/components/schemas/Icons'
+          required:
+            - Icons
     IconFindFilter:
       type: object
       additionalProperties: true
       properties:
         Scope:
-          type: string
-          enum:
-            - user
-            - shared
+          $ref: '#/components/schemas/Scope'
         Name:
           type: array
           items:
@@ -347,6 +371,9 @@ components:
             type: string
         Image:
           type: string
+      required:
+        - Name
+        - Image
     IconUpdateParameter:
       type: object
       properties:
@@ -378,20 +405,26 @@ components:
             type: string
         URL:
           type: string
+      required:
+        - Availability
+        - CreatedAt
+        - ID
+        - ModifiedAt
+        - Name
+        - Scope
+        - Tags
+        - URL
     Icons:
-      allOf:
-        - $ref: '#/components/schemas/FindResultMeta'
-        - type: object
-          properties:
-            Icons:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/Icon'
-                  - type: object
-                    properties:
-                      Index:
-                        type: integer
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/Icon'
+          - type: object
+            properties:
+              Index:
+                type: integer
+            required:
+              - Index
     RegionFindParameter:
       allOf:
         - $ref: '#/components/schemas/FindRequest'
@@ -400,6 +433,15 @@ components:
           properties:
             Filter:
               $ref: '#/components/schemas/RegionFindFilter'
+    RegionFindResult:
+      allOf:
+        - $ref: '#/components/schemas/FindResultMeta'
+        - type: object
+          properties:
+            Regions:
+              $ref: '#/components/schemas/Regions'
+          required:
+            - Regions
     RegionFindFilter:
       type: object
       additionalProperties: true
@@ -421,20 +463,22 @@ components:
           items:
             type: string
           type: array
+      required:
+        - Description
+        - ID
+        - Name
+        - NameServers
     Regions:
-      allOf:
-        - $ref: '#/components/schemas/FindResultMeta'
-        - type: object
-          properties:
-            Regions:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/Region'
-                  - type: object
-                    properties:
-                      Index:
-                        type: integer
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/Region'
+          - type: object
+            properties:
+              Index:
+                type: integer
+            required:
+              - Index
     ZoneFindParameter:
       allOf:
         - $ref: '#/components/schemas/FindRequest'
@@ -443,6 +487,15 @@ components:
           properties:
             Filter:
               $ref: '#/components/schemas/ZoneFindFilter'
+    ZoneFindResult:
+      allOf:
+        - $ref: '#/components/schemas/FindResultMeta'
+        - type: object
+          properties:
+            Zones:
+              $ref: '#/components/schemas/Zones'
+          required:
+            - Zones
     ZoneFindFilter:
       type: object
       additionalProperties: true
@@ -485,20 +538,27 @@ components:
           $ref: '#/components/schemas/VNCProxy'
         IsDummy:
           type: boolean
+      required:
+        - CreatedAt
+        - Description
+        - DisplayOrder
+        - FTPServer
+        - ID
+        - Name
+        - Region
+        - VNCProxy
+        - IsDummy
     Zones:
-      allOf:
-        - $ref: '#/components/schemas/FindResultMeta'
-        - type: object
-          properties:
-            Regions:
-              type: array
-              items:
-                allOf:
-                  - $ref: '#/components/schemas/Zone'
-                  - type: object
-                    properties:
-                      Index:
-                        type: integer
+      type: array
+      items:
+        allOf:
+          - $ref: '#/components/schemas/Zone'
+          - type: object
+            properties:
+              Index:
+                type: integer
+            required:
+              - Index
   responses:
     UnauthorizedError:
       description: Unauthorized

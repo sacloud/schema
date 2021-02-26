@@ -19,3 +19,12 @@ properties:
       type: string
   URL:
     type: string
+required:
+  - Availability
+  - CreatedAt
+  - ID
+  - ModifiedAt
+  - Name
+  - Scope
+  - Tags
+  - URL

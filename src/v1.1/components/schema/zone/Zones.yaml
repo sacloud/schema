@@ -1,13 +1,10 @@
-allOf:
-  - $ref: "../common/FindResultMeta.yaml"
-  - type: object
-    properties:
-      Regions:
-        type: array
-        items:
-          allOf:
-            - $ref: "./Zone.yaml"
-            - type: object
-              properties:
-                Index:
-                  type: integer
+type: array
+items:
+  allOf:
+    - $ref: "./Zone.yaml"
+    - type: object
+      properties:
+        Index:
+          type: integer
+      required:
+        - Index

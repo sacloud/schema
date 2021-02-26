@@ -75,7 +75,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Icons"
+                  "$ref": "#/components/schemas/IconFindResult"
                 }
               }
             }
@@ -241,7 +241,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Regions"
+                  "$ref": "#/components/schemas/RegionFindResult"
                 }
               }
             }
@@ -322,7 +322,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/Zones"
+                  "$ref": "#/components/schemas/ZoneFindResult"
                 }
               }
             }
@@ -398,13 +398,23 @@
           "serial": {
             "type": "string"
           },
+          "status": {
+            "type": "string"
+          },
           "error_code": {
             "type": "string"
           },
           "error_msg": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "is_fatal",
+          "serial",
+          "status",
+          "error_code",
+          "error_msg"
+        ]
       },
       "FindRequest": {
         "type": "object",
@@ -450,7 +460,13 @@
           "is_ok": {
             "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "Count",
+          "From",
+          "Total",
+          "is_ok"
+        ]
       },
       "FTPServer": {
         "type": "object",
@@ -477,6 +493,13 @@
           }
         ],
         "format": "int64"
+      },
+      "Scope": {
+        "type": "string",
+        "enum": [
+          "user",
+          "shared"
+        ]
       },
       "VNCProxy": {
         "type": "object",
@@ -509,16 +532,30 @@
           }
         ]
       },
+      "IconFindResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FindResultMeta"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Icons": {
+                "$ref": "#/components/schemas/Icons"
+              }
+            },
+            "required": [
+              "Icons"
+            ]
+          }
+        ]
+      },
       "IconFindFilter": {
         "type": "object",
         "additionalProperties": true,
         "properties": {
           "Scope": {
-            "type": "string",
-            "enum": [
-              "user",
-              "shared"
-            ]
+            "$ref": "#/components/schemas/Scope"
           },
           "Name": {
             "type": "array",
@@ -549,7 +586,11 @@
           "Image": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "Name",
+          "Image"
+        ]
       },
       "IconUpdateParameter": {
         "type": "object",
@@ -596,37 +637,38 @@
           "URL": {
             "type": "string"
           }
-        }
+        },
+        "required": [
+          "Availability",
+          "CreatedAt",
+          "ID",
+          "ModifiedAt",
+          "Name",
+          "Scope",
+          "Tags",
+          "URL"
+        ]
       },
       "Icons": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/FindResultMeta"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "Icons": {
-                "type": "array",
-                "items": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Icon"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "Index": {
-                          "type": "integer"
-                        }
-                      }
-                    }
-                  ]
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Icon"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "Index": {
+                  "type": "integer"
                 }
-              }
+              },
+              "required": [
+                "Index"
+              ]
             }
-          }
-        ]
+          ]
+        }
       },
       "RegionFindParameter": {
         "allOf": [
@@ -641,6 +683,24 @@
                 "$ref": "#/components/schemas/RegionFindFilter"
               }
             }
+          }
+        ]
+      },
+      "RegionFindResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FindResultMeta"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Regions": {
+                "$ref": "#/components/schemas/Regions"
+              }
+            },
+            "required": [
+              "Regions"
+            ]
           }
         ]
       },
@@ -674,37 +734,34 @@
             },
             "type": "array"
           }
-        }
+        },
+        "required": [
+          "Description",
+          "ID",
+          "Name",
+          "NameServers"
+        ]
       },
       "Regions": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/FindResultMeta"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "Regions": {
-                "type": "array",
-                "items": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Region"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "Index": {
-                          "type": "integer"
-                        }
-                      }
-                    }
-                  ]
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Region"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "Index": {
+                  "type": "integer"
                 }
-              }
+              },
+              "required": [
+                "Index"
+              ]
             }
-          }
-        ]
+          ]
+        }
       },
       "ZoneFindParameter": {
         "allOf": [
@@ -719,6 +776,24 @@
                 "$ref": "#/components/schemas/ZoneFindFilter"
               }
             }
+          }
+        ]
+      },
+      "ZoneFindResult": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FindResultMeta"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "Zones": {
+                "$ref": "#/components/schemas/Zones"
+              }
+            },
+            "required": [
+              "Zones"
+            ]
           }
         ]
       },
@@ -783,37 +858,39 @@
           "IsDummy": {
             "type": "boolean"
           }
-        }
+        },
+        "required": [
+          "CreatedAt",
+          "Description",
+          "DisplayOrder",
+          "FTPServer",
+          "ID",
+          "Name",
+          "Region",
+          "VNCProxy",
+          "IsDummy"
+        ]
       },
       "Zones": {
-        "allOf": [
-          {
-            "$ref": "#/components/schemas/FindResultMeta"
-          },
-          {
-            "type": "object",
-            "properties": {
-              "Regions": {
-                "type": "array",
-                "items": {
-                  "allOf": [
-                    {
-                      "$ref": "#/components/schemas/Zone"
-                    },
-                    {
-                      "type": "object",
-                      "properties": {
-                        "Index": {
-                          "type": "integer"
-                        }
-                      }
-                    }
-                  ]
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/Zone"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "Index": {
+                  "type": "integer"
                 }
-              }
+              },
+              "required": [
+                "Index"
+              ]
             }
-          }
-        ]
+          ]
+        }
       }
     },
     "responses": {
