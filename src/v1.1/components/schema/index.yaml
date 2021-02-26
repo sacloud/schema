@@ -8,9 +8,13 @@ APIError:
 
 # icon
 IconFindParameter:
-  $ref: './icon/IconFindParameter.yaml'
+  $ref: './icon/Find.yaml'
 IconFindFilter:
-  $ref: './icon/IconFindFilter.yaml'
+  $ref: './icon/Filter.yaml'
+IconCreateParameter:
+  $ref: './icon/Create.yaml'
+IconUpdateParameter:
+  $ref: './icon/Update.yaml'
 Icon:
   $ref: './icon/Icon.yaml'
 Icons:
