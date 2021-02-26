@@ -167,11 +167,30 @@ components:
         error_msg:
           type: string
     IconFindParameter:
-      type: object
-      additionalProperties: true
-      properties:
-        Filter:
-          $ref: '#/components/schemas/IconFindFilter'
+      allOf:
+        - type: object
+          properties:
+            Count:
+              type: integer
+            Exclude:
+              items:
+                type: string
+              type: array
+            From:
+              type: integer
+            Include:
+              items:
+                type: string
+              type: array
+            Sort:
+              items:
+                type: string
+              type: array
+        - type: object
+          additionalProperties: true
+          properties:
+            Filter:
+              $ref: '#/components/schemas/IconFindFilter'
     IconFindFilter:
       type: object
       additionalProperties: true

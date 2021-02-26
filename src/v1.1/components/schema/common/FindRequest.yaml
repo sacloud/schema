@@ -1,0 +1,18 @@
+type: object
+properties:
+  Count:
+    type: integer
+  Exclude:
+    items:
+      type: string
+    type: array
+  From:
+    type: integer
+  Include:
+    items:
+      type: string
+    type: array
+  Sort:
+    items:
+      type: string
+    type: array
