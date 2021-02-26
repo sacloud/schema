@@ -301,6 +301,11 @@ components:
         - type: integer
         - type: string
       format: int64
+    Scope:
+      type: string
+      enum:
+        - user
+        - shared
     VNCProxy:
       type: object
       properties:
@@ -324,10 +329,7 @@ components:
       additionalProperties: true
       properties:
         Scope:
-          type: string
-          enum:
-            - user
-            - shared
+          $ref: '#/components/schemas/Scope'
         Name:
           type: array
           items:

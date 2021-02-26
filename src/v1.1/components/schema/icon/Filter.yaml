@@ -2,10 +2,7 @@ type: object
 additionalProperties: true
 properties:
   Scope:
-    type: string
-    enum:
-      - user
-      - shared
+    $ref: '../common/Scope.yaml'
   Name:
     type: array
     items:

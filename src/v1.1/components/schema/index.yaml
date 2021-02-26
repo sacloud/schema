@@ -9,6 +9,8 @@ FTPServer:
   $ref: './common/FTPServer.yaml'
 ID:
   $ref: './common/ID.yaml'
+Scope:
+  $ref: './common/Scope.yaml'
 VNCProxy:
   $ref: './common/VNCProxy.yaml'
 

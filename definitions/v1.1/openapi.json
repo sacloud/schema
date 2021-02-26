@@ -478,6 +478,13 @@
         ],
         "format": "int64"
       },
+      "Scope": {
+        "type": "string",
+        "enum": [
+          "user",
+          "shared"
+        ]
+      },
       "VNCProxy": {
         "type": "object",
         "properties": {
@@ -514,11 +521,7 @@
         "additionalProperties": true,
         "properties": {
           "Scope": {
-            "type": "string",
-            "enum": [
-              "user",
-              "shared"
-            ]
+            "$ref": "#/components/schemas/Scope"
           },
           "Name": {
             "type": "array",
