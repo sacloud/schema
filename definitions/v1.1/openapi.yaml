@@ -1,11 +1,4 @@
 openapi: 3.0.3
-tags:
-  - name: icons
-    description: Operations for Icon resource
-  - name: regions
-    description: Operations for Region resource
-  - name: zones
-    description: Operations for Zone resource
 info:
   title: SAKURA Cloud APIs
   version: 0.0.1
@@ -29,6 +22,13 @@ servers:
           - tk1a
           - tk1b
           - tk1v
+tags:
+  - name: icons
+    description: Operations for Icon resource
+  - name: regions
+    description: Operations for Region resource
+  - name: zones
+    description: Operations for Zone resource
 paths:
   '/icon?{params}':
     get:
@@ -52,8 +52,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/IconFindResult'
+        '400':
+          $ref: '#/paths/~1icon/post/responses/400'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/paths/~1icon/post/responses/403'
+        '405':
+          $ref: '#/paths/~1icon/post/responses/405'
+        '500':
+          $ref: '#/paths/~1icon/post/responses/500'
+        '503':
+          $ref: '#/paths/~1icon/post/responses/503'
         default:
           $ref: '#/components/responses/UnexpectedError'
   /icon:
@@ -76,8 +86,38 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Icon'
+        '400':
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          description: Forbidden
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '405':
+          description: Method Not Allowed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '500':
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '503':
+          description: Service Unavailable
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/icon/{iconId}':
@@ -101,8 +141,22 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Icon'
+        '400':
+          $ref: '#/paths/~1icon/post/responses/400'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/paths/~1icon/post/responses/403'
+        '404':
+          description: Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '500':
+          $ref: '#/paths/~1icon/post/responses/500'
+        '503':
+          $ref: '#/paths/~1icon/post/responses/503'
         default:
           $ref: '#/components/responses/UnexpectedError'
     put:
@@ -131,8 +185,32 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Icon'
+        '400':
+          $ref: '#/paths/~1icon/post/responses/400'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/paths/~1icon/post/responses/403'
+        '404':
+          $ref: '#/paths/~1icon~1%7BiconId%7D/get/responses/404'
+        '405':
+          $ref: '#/paths/~1icon/post/responses/405'
+        '409':
+          description: Conflict
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '423':
+          description: Locked
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIError'
+        '500':
+          $ref: '#/paths/~1icon/post/responses/500'
+        '503':
+          $ref: '#/paths/~1icon/post/responses/503'
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/region?{params}':
@@ -157,8 +235,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/RegionFindResult'
+        '400':
+          $ref: '#/paths/~1icon/post/responses/400'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/paths/~1icon/post/responses/403'
+        '405':
+          $ref: '#/paths/~1icon/post/responses/405'
+        '500':
+          $ref: '#/paths/~1icon/post/responses/500'
+        '503':
+          $ref: '#/paths/~1icon/post/responses/503'
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/region/{regionId}':
@@ -182,8 +270,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Region'
+        '400':
+          $ref: '#/paths/~1icon/post/responses/400'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/paths/~1icon/post/responses/403'
+        '404':
+          $ref: '#/paths/~1icon~1%7BiconId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1icon/post/responses/500'
+        '503':
+          $ref: '#/paths/~1icon/post/responses/503'
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/zone?{params}':
@@ -208,8 +306,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/ZoneFindResult'
+        '400':
+          $ref: '#/paths/~1icon/post/responses/400'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/paths/~1icon/post/responses/403'
+        '405':
+          $ref: '#/paths/~1icon/post/responses/405'
+        '500':
+          $ref: '#/paths/~1icon/post/responses/500'
+        '503':
+          $ref: '#/paths/~1icon/post/responses/503'
         default:
           $ref: '#/components/responses/UnexpectedError'
   '/zone/{zoneId}':
@@ -233,8 +341,18 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Zone'
+        '400':
+          $ref: '#/paths/~1icon/post/responses/400'
         '401':
           $ref: '#/components/responses/UnauthorizedError'
+        '403':
+          $ref: '#/paths/~1icon/post/responses/403'
+        '404':
+          $ref: '#/paths/~1icon~1%7BiconId%7D/get/responses/404'
+        '500':
+          $ref: '#/paths/~1icon/post/responses/500'
+        '503':
+          $ref: '#/paths/~1icon/post/responses/503'
         default:
           $ref: '#/components/responses/UnexpectedError'
 security:

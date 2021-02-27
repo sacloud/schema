@@ -1,33 +1,33 @@
 # APIが返す可能性のあるエラーのリスト
 # 現在401とdefault以外は利用していないが、将来的に細分化する時のために残しておく
 ---
-'400':
-  description: Bad Request
-  $ref: '../../components/responses/400.yaml'
-'401':
-  description: Unauthorized
-  $ref: '../../components/responses/401.yaml'
-'403':
-  description: Forbidden
-  $ref: '../../components/responses/403.yaml'
-'404':
-  description: Not Found
-  $ref: '../../components/responses/404.yaml'
-'405':
-  description: Method Not Allowed
-  $ref: '../../components/responses/405.yaml'
-'409':
-  description: Conflict
-  $ref: '../../components/responses/409.yaml'
-'423':
-  description: Locked
-  $ref: '../../components/responses/423.yaml'
-'500':
-  description: Internal Server Error
-  $ref: '../../components/responses/500.yaml'
-'503':
-  description: Service Unavailable
-  $ref: '../../components/responses/503.yaml'
-default:
-  description: Unexpected Error
-  $ref: '../../components/responses/default.yaml'
+    '400':
+      description: Bad Request
+      $ref: '../../components/responses/400.yaml'
+    '401':
+      description: Unauthorized
+      $ref: '../../components/responses/401.yaml'
+    '403':
+      description: Forbidden
+      $ref: '../../components/responses/403.yaml'
+    '404':
+      description: Not Found
+      $ref: '../../components/responses/404.yaml'
+    '405':
+      description: Method Not Allowed
+      $ref: '../../components/responses/405.yaml'
+    '409':
+      description: Conflict
+      $ref: '../../components/responses/409.yaml'
+    '423':
+      description: Locked
+      $ref: '../../components/responses/423.yaml'
+    '500':
+      description: Internal Server Error
+      $ref: '../../components/responses/500.yaml'
+    '503':
+      description: Service Unavailable
+      $ref: '../../components/responses/503.yaml'
+    default:
+      description: Unexpected Error
+      $ref: '../../components/responses/default.yaml'
