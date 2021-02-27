@@ -9,6 +9,7 @@ properties:
     $ref: "../common/ID.yaml"
   ModifiedAt:
     type: string
+    format: "date-time"
   Name:
     type: string
   Scope:

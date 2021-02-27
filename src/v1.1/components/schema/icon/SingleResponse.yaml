@@ -1,0 +1,8 @@
+allOf:
+  - $ref: "../common/ActionResultEnvelope.yaml"
+  - type: object
+    properties:
+      Icon:
+        $ref: './Icon.yaml'
+    required:
+      - Icons

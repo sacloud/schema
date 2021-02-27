@@ -11,15 +11,25 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/region/Find.yaml'
+            $ref: '../../components/schema/region/FindRequest.yaml'
   responses:
     '200':
       description: An array of regions
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/region/Found.yaml'
+            $ref: '../../components/schema/region/MultiResponse.yaml'
+    '400':
+      $ref: '../../components/responses/400.yaml'
     '401':
       $ref: '../../components/responses/401.yaml'
+    '403':
+      $ref: '../../components/responses/403.yaml'
+    '405':
+      $ref: '../../components/responses/405.yaml'
+    '500':
+      $ref: '../../components/responses/500.yaml'
+    '503':
+      $ref: '../../components/responses/503.yaml'
     default:
       $ref: '../../components/responses/default.yaml'

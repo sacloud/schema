@@ -1,0 +1,8 @@
+allOf:
+  - $ref: "../common/ActionResultEnvelope.yaml"
+  - type: object
+    properties:
+      Zone:
+        $ref: './Zone.yaml'
+    required:
+      - Zone
