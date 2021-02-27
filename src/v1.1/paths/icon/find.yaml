@@ -11,14 +11,14 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/Find.yaml'
+            $ref: '../../components/schema/icon/FindRequest.yaml'
   responses:
     '200':
       description: An array of icons
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/Found.yaml'
+            $ref: '../../components/schema/icon/MultiResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':

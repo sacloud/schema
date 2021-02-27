@@ -17,7 +17,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/Icon.yaml'
+            $ref: '../../components/schema/icon/SingleResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':
@@ -51,14 +51,14 @@ put:
     content:
       application/json:
         schema:
-          $ref: '../../components/schema/icon/Update.yaml'
+          $ref: '../../components/schema/icon/UpdateRequest.yaml'
   responses:
     '200':
       description: Expected response to a valid request
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/Icon.yaml'
+            $ref: '../../components/schema/icon/SingleResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':

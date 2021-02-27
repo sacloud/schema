@@ -44,14 +44,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IconFindParameter'
+                $ref: '#/components/schemas/IconFindRequest'
       responses:
         '200':
           description: An array of icons
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/IconFindResult'
+                $ref: '#/components/schemas/IconMultiResponse'
         '400':
           $ref: '#/paths/~1icon/post/responses/400'
         '401':
@@ -78,14 +78,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IconCreateParameter'
+              $ref: '#/components/schemas/IconCreateRequest'
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Icon'
+                $ref: '#/components/schemas/IconSingleResponse'
         '400':
           description: Bad Request
           content:
@@ -140,7 +140,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Icon'
+                $ref: '#/components/schemas/IconSingleResponse'
         '400':
           $ref: '#/paths/~1icon/post/responses/400'
         '401':
@@ -177,14 +177,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/IconUpdateParameter'
+              $ref: '#/components/schemas/IconUpdateRequest'
       responses:
         '200':
           description: Expected response to a valid request
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Icon'
+                $ref: '#/components/schemas/IconSingleResponse'
         '400':
           $ref: '#/paths/~1icon/post/responses/400'
         '401':
@@ -227,14 +227,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegionFindParameter'
+                $ref: '#/components/schemas/RegionFindRequest'
       responses:
         '200':
           description: An array of regions
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/RegionFindResult'
+                $ref: '#/components/schemas/RegionMultiResponse'
         '400':
           $ref: '#/paths/~1icon/post/responses/400'
         '401':
@@ -269,7 +269,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Region'
+                $ref: '#/components/schemas/RegionSingleResponse'
         '400':
           $ref: '#/paths/~1icon/post/responses/400'
         '401':
@@ -298,14 +298,14 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZoneFindParameter'
+                $ref: '#/components/schemas/ZoneFindRequest'
       responses:
         '200':
           description: An array of zones
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/ZoneFindResult'
+                $ref: '#/components/schemas/ZoneMultiResponse'
         '400':
           $ref: '#/paths/~1icon/post/responses/400'
         '401':
@@ -340,7 +340,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Zone'
+                $ref: '#/components/schemas/ZoneSingleResponse'
         '400':
           $ref: '#/paths/~1icon/post/responses/400'
         '401':
@@ -401,7 +401,7 @@ components:
           items:
             type: string
           type: array
-    FindResultMeta:
+    FindResultEnvelope:
       type: object
       properties:
         Count:
@@ -447,60 +447,6 @@ components:
       required:
         - HostName
         - IPAddress
-    IconFindParameter:
-      allOf:
-        - $ref: '#/components/schemas/FindRequest'
-        - type: object
-          additionalProperties: true
-          properties:
-            Filter:
-              $ref: '#/components/schemas/IconFindFilter'
-    IconFindResult:
-      allOf:
-        - $ref: '#/components/schemas/FindResultMeta'
-        - type: object
-          properties:
-            Icons:
-              $ref: '#/components/schemas/Icons'
-          required:
-            - Icons
-    IconFindFilter:
-      type: object
-      additionalProperties: true
-      properties:
-        Scope:
-          $ref: '#/components/schemas/Scope'
-        Name:
-          type: array
-          items:
-            type: string
-        Tags.Name:
-          type: array
-          items:
-            type: string
-    IconCreateParameter:
-      type: object
-      properties:
-        Name:
-          type: string
-        Tags:
-          type: array
-          items:
-            type: string
-        Image:
-          type: string
-      required:
-        - Name
-        - Image
-    IconUpdateParameter:
-      type: object
-      properties:
-        Name:
-          type: string
-        Tags:
-          type: array
-          items:
-            type: string
     Icon:
       type: object
       properties:
@@ -513,6 +459,7 @@ components:
           $ref: '#/components/schemas/ID'
         ModifiedAt:
           type: string
+          format: date-time
         Name:
           type: string
         Scope:
@@ -543,28 +490,71 @@ components:
                 type: integer
             required:
               - Index
-    RegionFindParameter:
+    IconSingleResponse:
+      allOf:
+        - type: object
+          properties:
+            is_ok:
+              type: boolean
+          required:
+            - is_ok
+        - type: object
+          properties:
+            Icon:
+              $ref: '#/components/schemas/Icon'
+          required:
+            - Icons
+    IconMultiResponse:
+      allOf:
+        - $ref: '#/components/schemas/FindResultEnvelope'
+        - type: object
+          properties:
+            Icons:
+              $ref: '#/components/schemas/Icons'
+          required:
+            - Icons
+    IconFindFilter:
+      type: object
+      additionalProperties: true
+      properties:
+        Scope:
+          $ref: '#/components/schemas/Scope'
+        Name:
+          type: array
+          items:
+            type: string
+        Tags.Name:
+          type: array
+          items:
+            type: string
+    IconFindRequest:
       allOf:
         - $ref: '#/components/schemas/FindRequest'
         - type: object
           additionalProperties: true
           properties:
             Filter:
-              $ref: '#/components/schemas/RegionFindFilter'
-    RegionFindResult:
-      allOf:
-        - $ref: '#/components/schemas/FindResultMeta'
-        - type: object
-          properties:
-            Regions:
-              $ref: '#/components/schemas/Regions'
-          required:
-            - Regions
-    RegionFindFilter:
+              $ref: '#/components/schemas/IconFindFilter'
+    IconCreateRequest:
       type: object
-      additionalProperties: true
       properties:
         Name:
+          type: string
+        Tags:
+          type: array
+          items:
+            type: string
+        Image:
+          type: string
+      required:
+        - Name
+        - Image
+    IconUpdateRequest:
+      type: object
+      properties:
+        Name:
+          type: string
+        Tags:
           type: array
           items:
             type: string
@@ -597,24 +587,7 @@ components:
                 type: integer
             required:
               - Index
-    ZoneFindParameter:
-      allOf:
-        - $ref: '#/components/schemas/FindRequest'
-        - type: object
-          additionalProperties: true
-          properties:
-            Filter:
-              $ref: '#/components/schemas/ZoneFindFilter'
-    ZoneFindResult:
-      allOf:
-        - $ref: '#/components/schemas/FindResultMeta'
-        - type: object
-          properties:
-            Zones:
-              $ref: '#/components/schemas/Zones'
-          required:
-            - Zones
-    ZoneFindFilter:
+    RegionFindFilter:
       type: object
       additionalProperties: true
       properties:
@@ -622,18 +595,32 @@ components:
           type: array
           items:
             type: string
-        ID:
-          type: array
-          items:
-            type: string
-        Region.Name:
-          type: array
-          items:
-            type: string
-        Region.ID:
-          type: array
-          items:
-            type: string
+    RegionFindRequest:
+      allOf:
+        - $ref: '#/components/schemas/FindRequest'
+        - type: object
+          additionalProperties: true
+          properties:
+            Filter:
+              $ref: '#/components/schemas/RegionFindFilter'
+    RegionSingleResponse:
+      allOf:
+        - $ref: '#/components/schemas/IconSingleResponse/allOf/0'
+        - type: object
+          properties:
+            Region:
+              $ref: '#/components/schemas/Region'
+          required:
+            - Region
+    RegionMultiResponse:
+      allOf:
+        - $ref: '#/components/schemas/FindResultEnvelope'
+        - type: object
+          properties:
+            Regions:
+              $ref: '#/components/schemas/Regions'
+          required:
+            - Regions
     Zone:
       type: object
       properties:
@@ -677,6 +664,52 @@ components:
                 type: integer
             required:
               - Index
+    ZoneFindFilter:
+      type: object
+      additionalProperties: true
+      properties:
+        Name:
+          type: array
+          items:
+            type: string
+        ID:
+          type: array
+          items:
+            type: string
+        Region.Name:
+          type: array
+          items:
+            type: string
+        Region.ID:
+          type: array
+          items:
+            type: string
+    ZoneFindRequest:
+      allOf:
+        - $ref: '#/components/schemas/FindRequest'
+        - type: object
+          additionalProperties: true
+          properties:
+            Filter:
+              $ref: '#/components/schemas/ZoneFindFilter'
+    ZoneSingleResponse:
+      allOf:
+        - $ref: '#/components/schemas/IconSingleResponse/allOf/0'
+        - type: object
+          properties:
+            Zone:
+              $ref: '#/components/schemas/Zone'
+          required:
+            - Zone
+    ZoneMultiResponse:
+      allOf:
+        - $ref: '#/components/schemas/FindResultEnvelope'
+        - type: object
+          properties:
+            Zones:
+              $ref: '#/components/schemas/Zones'
+          required:
+            - Zones
   responses:
     UnauthorizedError:
       description: Unauthorized

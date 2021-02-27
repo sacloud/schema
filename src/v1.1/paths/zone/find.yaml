@@ -11,14 +11,14 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/zone/Find.yaml'
+            $ref: '../../components/schema/zone/FindRequest.yaml'
   responses:
     '200':
       description: An array of zones
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/zone/Found.yaml'
+            $ref: '../../components/schema/zone/MultiResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':

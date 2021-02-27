@@ -1,0 +1,6 @@
+type: object
+properties:
+  is_ok:
+    type: boolean
+required:
+  - is_ok

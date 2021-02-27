@@ -11,14 +11,14 @@ get:
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/region/Find.yaml'
+            $ref: '../../components/schema/region/FindRequest.yaml'
   responses:
     '200':
       description: An array of regions
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/region/Found.yaml'
+            $ref: '../../components/schema/region/MultiResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':

@@ -3,8 +3,8 @@ APIError:
   $ref: './common/APIError.yaml'
 FindRequest:
   $ref: './common/FindRequest.yaml'
-FindResultMeta:
-  $ref: './common/FindResultMeta.yaml'
+FindResultEnvelope:
+  $ref: './common/FindResultEnvelope.yaml'
 FTPServer:
   $ref: './common/FTPServer.yaml'
 ID:
@@ -15,41 +15,47 @@ VNCProxy:
   $ref: './common/VNCProxy.yaml'
 
 # icon
-IconFindParameter:
-  $ref: './icon/Find.yaml'
-IconFindResult:
-  $ref: './icon/Found.yaml'
-IconFindFilter:
-  $ref: './icon/Filter.yaml'
-IconCreateParameter:
-  $ref: './icon/Create.yaml'
-IconUpdateParameter:
-  $ref: './icon/Update.yaml'
 Icon:
   $ref: './icon/Icon.yaml'
 Icons:
   $ref: './icon/Icons.yaml'
+IconSingleResponse:
+  $ref: './icon/SingleResponse.yaml'
+IconMultiResponse:
+  $ref: './icon/MultiResponse.yaml'
+IconFindFilter:
+  $ref: './icon/Filter.yaml'
+IconFindRequest:
+  $ref: './icon/FindRequest.yaml'
+IconCreateRequest:
+  $ref: './icon/CreateRequest.yaml'
+IconUpdateRequest:
+  $ref: './icon/UpdateRequest.yaml'
 
 # region
-RegionFindParameter:
-  $ref: './region/Find.yaml'
-RegionFindResult:
-  $ref: './region/Found.yaml'
-RegionFindFilter:
-  $ref: './region/Filter.yaml'
 Region:
   $ref: './region/Region.yaml'
 Regions:
   $ref: './region/Regions.yaml'
+RegionFindFilter:
+  $ref: './region/Filter.yaml'
+RegionFindRequest:
+  $ref: './region/FindRequest.yaml'
+RegionSingleResponse:
+  $ref: './region/SingleResponse.yaml'
+RegionMultiResponse:
+  $ref: './region/MultiResponse.yaml'
 
 # zone
-ZoneFindParameter:
-  $ref: './zone/Find.yaml'
-ZoneFindResult:
-  $ref: './zone/Found.yaml'
-ZoneFindFilter:
-  $ref: './zone/Filter.yaml'
 Zone:
   $ref: './zone/Zone.yaml'
 Zones:
   $ref: './zone/Zones.yaml'
+ZoneFindFilter:
+  $ref: './zone/Filter.yaml'
+ZoneFindRequest:
+  $ref: './zone/FindRequest.yaml'
+ZoneSingleResponse:
+  $ref: './zone/SingleResponse.yaml'
+ZoneMultiResponse:
+  $ref: './zone/MultiResponse.yaml'

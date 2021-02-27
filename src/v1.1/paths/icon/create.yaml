@@ -9,14 +9,14 @@ post:
     content:
       application/json:
         schema:
-          $ref: '../../components/schema/icon/Create.yaml'
+          $ref: '../../components/schema/icon/CreateRequest.yaml'
   responses:
     '200':
       description: Expected response to a valid request
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/Icon.yaml'
+            $ref: '../../components/schema/icon/SingleResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':
