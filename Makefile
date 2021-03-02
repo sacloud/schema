@@ -22,4 +22,4 @@ _gen:
 
 examples: gen
 	# docker run -it --rm -v $$PWD:$$PWD -w $$PWD openapitools/openapi-generator-cli generate -i definitions/v1.1/openapi.yaml -g rust -o examples/rust/
-	oapi-codegen -generate types,client,spec -package main  definitions/v1.1/openapi.yaml  > examples/go/gen.go
+	oapi-codegen -generate types,client,spec -package sacloud definitions/v1.1/openapi.yaml  > examples/go/sacloud/gen.go
