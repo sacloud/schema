@@ -1,6 +1,6 @@
 type: object
 properties:
   Icon:
-    $ref: './UpdateRequestBody.yaml'
+    $ref: './Icon.yaml'
 required:
   - Icon

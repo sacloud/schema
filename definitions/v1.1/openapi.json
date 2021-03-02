@@ -123,7 +123,7 @@
           }
         },
         "responses": {
-          "200": {
+          "201": {
             "description": "Expected response to a valid request",
             "content": {
               "application/json": {
@@ -325,6 +325,67 @@
                 }
               }
             }
+          },
+          "500": {
+            "$ref": "#/paths/~1icon/post/responses/500"
+          },
+          "503": {
+            "$ref": "#/paths/~1icon/post/responses/503"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete Icon",
+        "description": "DeleteIcon",
+        "operationId": "deleteIconById",
+        "tags": [
+          "icons"
+        ],
+        "parameters": [
+          {
+            "name": "iconId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the icon to delete",
+            "schema": {
+              "$ref": "#/components/schemas/ID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IconSingleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/paths/~1icon/post/responses/400"
+          },
+          "401": {
+            "$ref": "#/components/responses/UnauthorizedError"
+          },
+          "403": {
+            "$ref": "#/paths/~1icon/post/responses/403"
+          },
+          "404": {
+            "$ref": "#/paths/~1icon~1%7BiconId%7D/get/responses/404"
+          },
+          "405": {
+            "$ref": "#/paths/~1icon/post/responses/405"
+          },
+          "409": {
+            "$ref": "#/paths/~1icon~1%7BiconId%7D/put/responses/409"
+          },
+          "423": {
+            "$ref": "#/paths/~1icon~1%7BiconId%7D/put/responses/423"
           },
           "500": {
             "$ref": "#/paths/~1icon/post/responses/500"
@@ -574,6 +635,17 @@
       }
     },
     "schemas": {
+      "ActionResultEnvelope": {
+        "type": "object",
+        "properties": {
+          "is_ok": {
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "is_ok"
+        ]
+      },
       "APIError": {
         "type": "object",
         "properties": {
@@ -766,29 +838,35 @@
           ]
         }
       },
+      "IconWrapper": {
+        "type": "object",
+        "properties": {
+          "Icon": {
+            "$ref": "#/components/schemas/Icon"
+          }
+        },
+        "required": [
+          "Icon"
+        ]
+      },
+      "IconsWrapper": {
+        "type": "object",
+        "properties": {
+          "Icons": {
+            "$ref": "#/components/schemas/Icons"
+          }
+        },
+        "required": [
+          "Icons"
+        ]
+      },
       "IconSingleResponse": {
         "allOf": [
           {
-            "type": "object",
-            "properties": {
-              "is_ok": {
-                "type": "boolean"
-              }
-            },
-            "required": [
-              "is_ok"
-            ]
+            "$ref": "#/components/schemas/ActionResultEnvelope"
           },
           {
-            "type": "object",
-            "properties": {
-              "Icon": {
-                "$ref": "#/components/schemas/Icon"
-              }
-            },
-            "required": [
-              "Icons"
-            ]
+            "$ref": "#/components/schemas/IconWrapper"
           }
         ]
       },
@@ -798,15 +876,7 @@
             "$ref": "#/components/schemas/FindResultEnvelope"
           },
           {
-            "type": "object",
-            "properties": {
-              "Icons": {
-                "$ref": "#/components/schemas/Icons"
-              }
-            },
-            "required": [
-              "Icons"
-            ]
+            "$ref": "#/components/schemas/IconsWrapper"
           }
         ]
       },
@@ -850,6 +920,17 @@
       "IconCreateRequest": {
         "type": "object",
         "properties": {
+          "Icon": {
+            "$ref": "#/components/schemas/IconCreateRequestBody"
+          }
+        },
+        "required": [
+          "Icon"
+        ]
+      },
+      "IconCreateRequestBody": {
+        "type": "object",
+        "properties": {
           "Name": {
             "type": "string"
           },
@@ -869,6 +950,17 @@
         ]
       },
       "IconUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "Icon": {
+            "$ref": "#/components/schemas/IconUpdateRequestBody"
+          }
+        },
+        "required": [
+          "Icon"
+        ]
+      },
+      "IconUpdateRequestBody": {
         "type": "object",
         "properties": {
           "Name": {
@@ -929,6 +1021,28 @@
           ]
         }
       },
+      "RegionWrapper": {
+        "type": "object",
+        "properties": {
+          "Region": {
+            "$ref": "#/components/schemas/Region"
+          }
+        },
+        "required": [
+          "Region"
+        ]
+      },
+      "RegionsWrapper": {
+        "type": "object",
+        "properties": {
+          "Regions": {
+            "$ref": "#/components/schemas/Regions"
+          }
+        },
+        "required": [
+          "Regions"
+        ]
+      },
       "RegionFindFilter": {
         "type": "object",
         "additionalProperties": true,
@@ -960,18 +1074,10 @@
       "RegionSingleResponse": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/IconSingleResponse/allOf/0"
+            "$ref": "#/components/schemas/ActionResultEnvelope"
           },
           {
-            "type": "object",
-            "properties": {
-              "Region": {
-                "$ref": "#/components/schemas/Region"
-              }
-            },
-            "required": [
-              "Region"
-            ]
+            "$ref": "#/components/schemas/RegionWrapper"
           }
         ]
       },
@@ -981,15 +1087,7 @@
             "$ref": "#/components/schemas/FindResultEnvelope"
           },
           {
-            "type": "object",
-            "properties": {
-              "Regions": {
-                "$ref": "#/components/schemas/Regions"
-              }
-            },
-            "required": [
-              "Regions"
-            ]
+            "$ref": "#/components/schemas/RegionsWrapper"
           }
         ]
       },
@@ -1058,6 +1156,28 @@
           ]
         }
       },
+      "ZoneWrapper": {
+        "type": "object",
+        "properties": {
+          "Zone": {
+            "$ref": "#/components/schemas/Zone"
+          }
+        },
+        "required": [
+          "Zone"
+        ]
+      },
+      "ZonesWrapper": {
+        "type": "object",
+        "properties": {
+          "Zones": {
+            "$ref": "#/components/schemas/Zones"
+          }
+        },
+        "required": [
+          "Zones"
+        ]
+      },
       "ZoneFindFilter": {
         "type": "object",
         "additionalProperties": true,
@@ -1107,18 +1227,10 @@
       "ZoneSingleResponse": {
         "allOf": [
           {
-            "$ref": "#/components/schemas/IconSingleResponse/allOf/0"
+            "$ref": "#/components/schemas/ActionResultEnvelope"
           },
           {
-            "type": "object",
-            "properties": {
-              "Zone": {
-                "$ref": "#/components/schemas/Zone"
-              }
-            },
-            "required": [
-              "Zone"
-            ]
+            "$ref": "#/components/schemas/ZoneWrapper"
           }
         ]
       },
@@ -1128,15 +1240,7 @@
             "$ref": "#/components/schemas/FindResultEnvelope"
           },
           {
-            "type": "object",
-            "properties": {
-              "Zones": {
-                "$ref": "#/components/schemas/Zones"
-              }
-            },
-            "required": [
-              "Zones"
-            ]
+            "$ref": "#/components/schemas/ZonesWrapper"
           }
         ]
       }

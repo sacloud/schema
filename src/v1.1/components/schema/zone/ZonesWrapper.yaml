@@ -1,0 +1,6 @@
+type: object
+properties:
+  Zones:
+    $ref: './Zones.yaml'
+required:
+  - Zones

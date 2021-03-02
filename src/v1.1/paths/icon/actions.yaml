@@ -79,3 +79,44 @@ put:
       $ref: '../../components/responses/503.yaml'
     default:
       $ref: '../../components/responses/default.yaml'
+
+delete:
+  summary: Delete Icon
+  description: DeleteIcon
+  operationId: deleteIconById
+  tags:
+    - icons
+  parameters:
+    - name: iconId
+      in: path
+      required: true
+      description: The id of the icon to delete
+      schema:
+        $ref: '../../components/schema/common/ID.yaml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/icon/SingleResponse.yaml'
+    '400':
+      $ref: '../../components/responses/400.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    '403':
+      $ref: '../../components/responses/403.yaml'
+    '404':
+      $ref: '../../components/responses/404.yaml'
+    '405':
+      $ref: '../../components/responses/405.yaml'
+    '409':
+      $ref: '../../components/responses/409.yaml'
+    '423':
+      $ref: '../../components/responses/423.yaml'
+    '500':
+      $ref: '../../components/responses/500.yaml'
+    '503':
+      $ref: '../../components/responses/503.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'
