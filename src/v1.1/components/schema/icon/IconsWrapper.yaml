@@ -1,0 +1,6 @@
+type: object
+properties:
+  Icons:
+    $ref: './Icons.yaml'
+required:
+  - Icons

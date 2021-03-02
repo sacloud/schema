@@ -1,8 +1,3 @@
 allOf:
   - $ref: "../common/ActionResultEnvelope.yaml"
-  - type: object
-    properties:
-      Region:
-        $ref: './Region.yaml'
-    required:
-      - Region
+  - $ref: "./RegionWrapper.yaml"

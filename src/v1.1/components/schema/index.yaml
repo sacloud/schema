@@ -1,4 +1,6 @@
 # common
+ActionResultEnvelope:
+  $ref: './common/ActionResultEnvelope.yaml'
 APIError:
   $ref: './common/APIError.yaml'
 FindRequest:
@@ -19,6 +21,10 @@ Icon:
   $ref: './icon/Icon.yaml'
 Icons:
   $ref: './icon/Icons.yaml'
+IconWrapper:
+  $ref: './icon/IconWrapper.yaml'
+IconsWrapper:
+  $ref: './icon/IconsWrapper.yaml'
 IconSingleResponse:
   $ref: './icon/SingleResponse.yaml'
 IconMultiResponse:
@@ -29,14 +35,22 @@ IconFindRequest:
   $ref: './icon/FindRequest.yaml'
 IconCreateRequest:
   $ref: './icon/CreateRequest.yaml'
+IconCreateRequestBody:
+  $ref: './icon/CreateRequestBody.yaml'
 IconUpdateRequest:
   $ref: './icon/UpdateRequest.yaml'
+IconUpdateRequestBody:
+  $ref: './icon/UpdateRequestBody.yaml'
 
 # region
 Region:
   $ref: './region/Region.yaml'
 Regions:
   $ref: './region/Regions.yaml'
+RegionWrapper:
+  $ref: './region/RegionWrapper.yaml'
+RegionsWrapper:
+  $ref: './region/RegionsWrapper.yaml'
 RegionFindFilter:
   $ref: './region/Filter.yaml'
 RegionFindRequest:
@@ -51,6 +65,10 @@ Zone:
   $ref: './zone/Zone.yaml'
 Zones:
   $ref: './zone/Zones.yaml'
+ZoneWrapper:
+  $ref: './zone/ZoneWrapper.yaml'
+ZonesWrapper:
+  $ref: './zone/ZonesWrapper.yaml'
 ZoneFindFilter:
   $ref: './zone/Filter.yaml'
 ZoneFindRequest:

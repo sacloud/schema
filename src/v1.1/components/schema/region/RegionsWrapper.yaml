@@ -1,0 +1,6 @@
+type: object
+properties:
+  Regions:
+    $ref: './Regions.yaml'
+required:
+  - Regions

@@ -1,13 +1,6 @@
 type: object
 properties:
-  Name:
-    type: string
-  Tags:
-    type: array
-    items:
-      type: string
-  Image:
-    type: string
+  Icon:
+    $ref: './CreateRequestBody.yaml'
 required:
-  - Name
-  - Image
+  - Icon

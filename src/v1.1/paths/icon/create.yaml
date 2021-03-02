@@ -11,7 +11,7 @@ post:
         schema:
           $ref: '../../components/schema/icon/CreateRequest.yaml'
   responses:
-    '200':
+    '201':
       description: Expected response to a valid request
       content:
         application/json:
