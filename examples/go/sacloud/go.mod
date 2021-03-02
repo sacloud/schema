@@ -1,4 +1,4 @@
-module github.com/sacloud/schema/examples/go
+module github.com/sacloud/schema/examples/go/sacloud
 
 go 1.15
 
