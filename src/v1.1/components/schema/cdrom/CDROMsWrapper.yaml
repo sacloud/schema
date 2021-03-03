@@ -1,0 +1,6 @@
+type: object
+properties:
+  CDROMs:
+    $ref: './CDROMs.yaml'
+required:
+  - CDROMs

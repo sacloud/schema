@@ -1,22 +1,24 @@
-post:
-  summary: Create a icon
-  description: Create a icon
-  operationId: createIcon
+get:
+  summary: List all CD-ROM
+  description: List all CD-ROM
+  operationId: listCDROMs
   tags:
-    - icons
-  requestBody:
-    required: true
-    content:
-      application/json:
-        schema:
-          $ref: '../../components/schema/icon/CreateRequest.yaml'
-  responses:
-    '201':
-      description: Expected response to a valid request
+    - cdroms
+  parameters:
+    - in: path
+      required: true
+      name: "params"
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/SingleResponse.yaml'
+            $ref: '../../components/schema/cdrom/FindRequest.yaml'
+  responses:
+    '200':
+      description: An array of CD-ROMs
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/cdrom/MultiResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':

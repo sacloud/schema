@@ -1,0 +1,15 @@
+type: object
+properties:
+  HostName:
+    type: string
+  IPAddress:
+    type: string
+  User:
+    type: string
+  Password:
+    type: string
+required:
+  - HostName
+  - IPAddress
+  - User
+  - Password

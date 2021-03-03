@@ -1,0 +1,122 @@
+get:
+  summary: Info for a specific CD-ROM
+  description: Info for a specific CD-ROM
+  operationId: showCDROMById
+  tags:
+    - cdroms
+  parameters:
+    - name: cdromId
+      in: path
+      required: true
+      description: The id of the cdrom to retrieve
+      schema:
+        $ref: '../../components/schema/common/ID.yaml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/cdrom/SingleResponse.yaml'
+    '400':
+      $ref: '../../components/responses/400.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    '403':
+      $ref: '../../components/responses/403.yaml'
+    '404':
+      $ref: '../../components/responses/404.yaml'
+    '500':
+      $ref: '../../components/responses/500.yaml'
+    '503':
+      $ref: '../../components/responses/503.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'
+
+put:
+  summary: Update CD-ROM
+  description: UpdateCDROM
+  operationId: updateCDROMById
+  tags:
+    - cdroms
+  parameters:
+    - name: cdromId
+      in: path
+      required: true
+      description: The id of the cdrom to retrieve
+      schema:
+        $ref: '../../components/schema/common/ID.yaml'
+  requestBody:
+    required: true
+    content:
+      application/json:
+        schema:
+          $ref: '../../components/schema/cdrom/UpdateRequest.yaml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/cdrom/SingleResponse.yaml'
+    '400':
+      $ref: '../../components/responses/400.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    '403':
+      $ref: '../../components/responses/403.yaml'
+    '404':
+      $ref: '../../components/responses/404.yaml'
+    '405':
+      $ref: '../../components/responses/405.yaml'
+    '409':
+      $ref: '../../components/responses/409.yaml'
+    '423':
+      $ref: '../../components/responses/423.yaml'
+    '500':
+      $ref: '../../components/responses/500.yaml'
+    '503':
+      $ref: '../../components/responses/503.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'
+
+delete:
+  summary: Delete CD-ROM
+  description: DeleteCDROM
+  operationId: deleteCDROMById
+  tags:
+    - cdroms
+  parameters:
+    - name: cdromId
+      in: path
+      required: true
+      description: The id of the cdrom to delete
+      schema:
+        $ref: '../../components/schema/common/ID.yaml'
+  responses:
+    '200':
+      description: Expected response to a valid request
+      content:
+        application/json:
+          schema:
+            $ref: '../../components/schema/cdrom/SingleResponse.yaml'
+    '400':
+      $ref: '../../components/responses/400.yaml'
+    '401':
+      $ref: '../../components/responses/401.yaml'
+    '403':
+      $ref: '../../components/responses/403.yaml'
+    '404':
+      $ref: '../../components/responses/404.yaml'
+    '405':
+      $ref: '../../components/responses/405.yaml'
+    '409':
+      $ref: '../../components/responses/409.yaml'
+    '423':
+      $ref: '../../components/responses/423.yaml'
+    '500':
+      $ref: '../../components/responses/500.yaml'
+    '503':
+      $ref: '../../components/responses/503.yaml'
+    default:
+      $ref: '../../components/responses/default.yaml'

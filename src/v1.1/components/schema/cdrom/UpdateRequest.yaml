@@ -1,0 +1,6 @@
+type: object
+properties:
+  CDROM:
+    $ref: './UpdateRequestBody.yaml'
+required:
+  - CDROM

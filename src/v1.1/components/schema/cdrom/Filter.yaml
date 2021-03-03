@@ -1,0 +1,13 @@
+type: object
+additionalProperties: true
+properties:
+  Scope:
+    $ref: '../common/Scope.yaml'
+  Name:
+    type: array
+    items:
+      type: string
+  Tags.Name:
+    type: array
+    items:
+      type: string

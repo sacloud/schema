@@ -9,14 +9,50 @@ FindResultEnvelope:
   $ref: './common/FindResultEnvelope.yaml'
 FTPServer:
   $ref: './common/FTPServer.yaml'
+FTPServerDetail:
+  $ref: './common/FTPServerDetail.yaml'
 ID:
   $ref: './common/ID.yaml'
+IDEnvelope:
+  $ref: './common/IDEnvelope.yaml'
 Scope:
   $ref: './common/Scope.yaml'
 VNCProxy:
   $ref: './common/VNCProxy.yaml'
 
+# cdrom
+CDROM:
+  $ref: './cdrom/CDROM.yaml'
+CDROMs:
+  $ref: './cdrom/CDROMs.yaml'
+CDROMSizes:
+  $ref: './cdrom/CDROMSizes.yaml'
+CDROMsWrapper:
+  $ref: './cdrom/CDROMsWrapper.yaml'
+CDROMWrapper:
+  $ref: './cdrom/CDROMWrapper.yaml'
+CDROMCreateRequest:
+  $ref: './cdrom/CreateRequest.yaml'
+CDROMCreateRequestBody:
+  $ref: './cdrom/CreateRequestBody.yaml'
+CDROMCreateResponse:
+  $ref: './cdrom/CreateResponse.yaml'
+CDROMFilter:
+  $ref: './cdrom/Filter.yaml'
+CDROMFindRequest:
+  $ref: './cdrom/FindRequest.yaml'
+CDROMMultiResponse:
+  $ref: './cdrom/MultiResponse.yaml'
+CDROMSingleResponse:
+  $ref: './cdrom/SingleResponse.yaml'
+CDROMUpdateRequest:
+  $ref: './cdrom/UpdateRequest.yaml'
+CDROMUpdateRequestBody:
+  $ref: './cdrom/UpdateRequestBody.yaml'
+
 # icon
+IconView:
+  $ref: './icon/IconView.yaml'
 Icon:
   $ref: './icon/Icon.yaml'
 Icons:
