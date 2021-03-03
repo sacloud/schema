@@ -1,4 +1,20 @@
-UnauthorizedError:
+BadRequest:
+  $ref: "./400.yaml"
+Unauthorized:
   $ref: "./401.yaml"
+Forbidden:
+  $ref: "./403.yaml"
+NotFound:
+  $ref: "./404.yaml"
+MethodNotAllowed:
+  $ref: "./405.yaml"
+Conflict:
+  $ref: "./409.yaml"
+Locked:
+  $ref: "./423.yaml"
+InternalServerError:
+  $ref: "./500.yaml"
+ServiceUnavailable:
+  $ref: "./503.yaml"
 UnexpectedError:
   $ref: "./default.yaml"
