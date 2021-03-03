@@ -53,7 +53,7 @@ func main() {
 }
 
 func createIcon(ctx context.Context, client *sacloud.Client) (*sacloud.Icon, error) {
-	res, err := client.CreateIcons(ctx, sacloud.CreateIconsJSONRequestBody{
+	res, err := client.CreateIcon(ctx, sacloud.CreateIconJSONRequestBody{
 		Icon: sacloud.IconCreateRequestBody{
 			Image: iconBody,
 			Name:  "from-openapi-generator",
@@ -63,7 +63,7 @@ func createIcon(ctx context.Context, client *sacloud.Client) (*sacloud.Icon, err
 		return nil, err
 	}
 
-	createResponse, err := sacloud.ParseCreateIconsResponse(res)
+	createResponse, err := sacloud.ParseCreateIconResponse(res)
 	if err != nil {
 		return nil, err
 	}

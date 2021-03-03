@@ -34,6 +34,10 @@
   ],
   "tags": [
     {
+      "name": "cdroms",
+      "description": "Operations for CD-ROM resource"
+    },
+    {
       "name": "icons",
       "description": "Operations for Icon resource"
     },
@@ -47,6 +51,433 @@
     }
   ],
   "paths": {
+    "/cdrom?{params}": {
+      "get": {
+        "summary": "List all CD-ROM",
+        "description": "List all CD-ROM",
+        "operationId": "listCDROMs",
+        "tags": [
+          "cdroms"
+        ],
+        "parameters": [
+          {
+            "in": "path",
+            "required": true,
+            "name": "params",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CDROMFindRequest"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "An array of CD-ROMs",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CDROMMultiResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/cdrom": {
+      "post": {
+        "summary": "Create a CD-ROM",
+        "description": "Create a CD-ROM",
+        "operationId": "createCDROM",
+        "tags": [
+          "cdroms"
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CDROMCreateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CDROMCreateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/cdrom/{cdromId}": {
+      "get": {
+        "summary": "Info for a specific CD-ROM",
+        "description": "Info for a specific CD-ROM",
+        "operationId": "showCDROMById",
+        "tags": [
+          "cdroms"
+        ],
+        "parameters": [
+          {
+            "name": "cdromId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the cdrom to retrieve",
+            "schema": {
+              "$ref": "#/components/schemas/ID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CDROMSingleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "put": {
+        "summary": "Update CD-ROM",
+        "description": "UpdateCDROM",
+        "operationId": "updateCDROMById",
+        "tags": [
+          "cdroms"
+        ],
+        "parameters": [
+          {
+            "name": "cdromId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the cdrom to retrieve",
+            "schema": {
+              "$ref": "#/components/schemas/ID"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CDROMUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CDROMSingleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "423": {
+            "$ref": "#/components/responses/Locked"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete CD-ROM",
+        "description": "DeleteCDROM",
+        "operationId": "deleteCDROMById",
+        "tags": [
+          "cdroms"
+        ],
+        "parameters": [
+          {
+            "name": "cdromId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the cdrom to delete",
+            "schema": {
+              "$ref": "#/components/schemas/ID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CDROMSingleResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "423": {
+            "$ref": "#/components/responses/Locked"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
+    "/cdrom/{cdromId}/ftp": {
+      "put": {
+        "summary": "Open FTP",
+        "description": "Open FTP connection",
+        "operationId": "openFTP",
+        "tags": [
+          "cdroms"
+        ],
+        "parameters": [
+          {
+            "name": "cdromId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the cdrom to retrieve",
+            "schema": {
+              "$ref": "#/components/schemas/ID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/ActionResultEnvelope"
+                    },
+                    {
+                      "$ref": "#/components/schemas/FTPServerDetail"
+                    }
+                  ]
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "423": {
+            "$ref": "#/components/responses/Locked"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Close FTP connection",
+        "description": "Close FTP connection",
+        "operationId": "closeFTP",
+        "tags": [
+          "cdroms"
+        ],
+        "parameters": [
+          {
+            "name": "cdromId",
+            "in": "path",
+            "required": true,
+            "description": "The id of the cdrom to delete",
+            "schema": {
+              "$ref": "#/components/schemas/ID"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Expected response to a valid request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultEnvelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "$ref": "#/components/responses/BadRequest"
+          },
+          "401": {
+            "$ref": "#/components/responses/Unauthorized"
+          },
+          "403": {
+            "$ref": "#/components/responses/Forbidden"
+          },
+          "404": {
+            "$ref": "#/components/responses/NotFound"
+          },
+          "405": {
+            "$ref": "#/components/responses/MethodNotAllowed"
+          },
+          "409": {
+            "$ref": "#/components/responses/Conflict"
+          },
+          "423": {
+            "$ref": "#/components/responses/Locked"
+          },
+          "500": {
+            "$ref": "#/components/responses/InternalServerError"
+          },
+          "503": {
+            "$ref": "#/components/responses/ServiceUnavailable"
+          },
+          "default": {
+            "$ref": "#/components/responses/UnexpectedError"
+          }
+        }
+      }
+    },
     "/icon?{params}": {
       "get": {
         "summary": "List all Icons",
@@ -108,7 +539,7 @@
       "post": {
         "summary": "Create a icon",
         "description": "Create a icon",
-        "operationId": "createIcons",
+        "operationId": "createIcon",
         "tags": [
           "icons"
         ],
@@ -669,21 +1100,6 @@
           "is_ok"
         ]
       },
-      "FTPServer": {
-        "type": "object",
-        "properties": {
-          "HostName": {
-            "type": "string"
-          },
-          "IPAddress": {
-            "type": "string"
-          }
-        },
-        "required": [
-          "HostName",
-          "IPAddress"
-        ]
-      },
       "ID": {
         "oneOf": [
           {
@@ -694,6 +1110,14 @@
           }
         ],
         "format": "int64"
+      },
+      "IDEnvelope": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "$ref": "#/components/schemas/ID"
+          }
+        }
       },
       "Scope": {
         "type": "string",
@@ -715,6 +1139,334 @@
         "required": [
           "HostName",
           "IPAddress"
+        ]
+      },
+      "FTPServer": {
+        "type": "object",
+        "properties": {
+          "FTPServer": {
+            "$ref": "#/components/schemas/FTPServerBody"
+          }
+        },
+        "required": [
+          "FTPServer"
+        ]
+      },
+      "FTPServerBody": {
+        "type": "object",
+        "properties": {
+          "HostName": {
+            "type": "string"
+          },
+          "IPAddress": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "HostName",
+          "IPAddress"
+        ]
+      },
+      "FTPServerDetail": {
+        "type": "object",
+        "properties": {
+          "FTPServer": {
+            "$ref": "#/components/schemas/FTPServerDetailBody"
+          }
+        },
+        "required": [
+          "FTPServer"
+        ]
+      },
+      "FTPServerDetailBody": {
+        "type": "object",
+        "properties": {
+          "HostName": {
+            "type": "string"
+          },
+          "IPAddress": {
+            "type": "string"
+          },
+          "User": {
+            "type": "string"
+          },
+          "Password": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "HostName",
+          "IPAddress",
+          "User",
+          "Password"
+        ]
+      },
+      "CDROM": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "SizeMB": {
+            "$ref": "#/components/schemas/CDROMSizes"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Tags": {
+            "items": {
+              "type": "string"
+            },
+            "type": "array"
+          },
+          "Availability": {
+            "type": "string"
+          },
+          "CreatedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "DisplayOrder": {
+            "type": "integer"
+          },
+          "Icon": {
+            "$ref": "#/components/schemas/IconView"
+          },
+          "ModifiedAt": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "StorageClass": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ID",
+          "Name",
+          "Scope",
+          "SizeMB",
+          "Description",
+          "Tags",
+          "Availability",
+          "CreatedAt",
+          "DisplayOrder",
+          "ModifiedAt",
+          "StorageClass"
+        ]
+      },
+      "CDROMs": {
+        "type": "array",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/CDROM"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "Index": {
+                  "type": "integer"
+                }
+              },
+              "required": [
+                "Index"
+              ]
+            }
+          ]
+        }
+      },
+      "CDROMSizes": {
+        "type": "integer",
+        "enum": [
+          5120,
+          10240
+        ]
+      },
+      "CDROMsWrapper": {
+        "type": "object",
+        "properties": {
+          "CDROMs": {
+            "$ref": "#/components/schemas/CDROMs"
+          }
+        },
+        "required": [
+          "CDROMs"
+        ]
+      },
+      "CDROMWrapper": {
+        "type": "object",
+        "properties": {
+          "CDROM": {
+            "$ref": "#/components/schemas/CDROM"
+          }
+        },
+        "required": [
+          "CDROM"
+        ]
+      },
+      "CDROMCreateRequest": {
+        "type": "object",
+        "properties": {
+          "CDROM": {
+            "$ref": "#/components/schemas/CDROMCreateRequestBody"
+          }
+        },
+        "required": [
+          "CDROM"
+        ]
+      },
+      "CDROMCreateRequestBody": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "SizeMB": {
+            "$ref": "#/components/schemas/CDROMSizes"
+          },
+          "Icon": {
+            "$ref": "#/components/schemas/IDEnvelope"
+          }
+        },
+        "required": [
+          "Name",
+          "SizeMB"
+        ]
+      },
+      "CDROMCreateResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ActionResultEnvelope"
+          },
+          {
+            "$ref": "#/components/schemas/CDROMWrapper"
+          },
+          {
+            "$ref": "#/components/schemas/FTPServerDetail"
+          }
+        ]
+      },
+      "CDROMFilter": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "Scope": {
+            "$ref": "#/components/schemas/Scope"
+          },
+          "Name": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "Tags.Name": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "CDROMFindRequest": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FindRequest"
+          },
+          {
+            "type": "object",
+            "additionalProperties": true,
+            "properties": {
+              "Filter": {
+                "$ref": "#/components/schemas/CDROMFilter"
+              }
+            }
+          }
+        ]
+      },
+      "CDROMMultiResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/FindResultEnvelope"
+          },
+          {
+            "$ref": "#/components/schemas/CDROMsWrapper"
+          }
+        ]
+      },
+      "CDROMSingleResponse": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/ActionResultEnvelope"
+          },
+          {
+            "$ref": "#/components/schemas/CDROMWrapper"
+          }
+        ]
+      },
+      "CDROMUpdateRequest": {
+        "type": "object",
+        "properties": {
+          "CDROM": {
+            "$ref": "#/components/schemas/CDROMUpdateRequestBody"
+          }
+        },
+        "required": [
+          "CDROM"
+        ]
+      },
+      "CDROMUpdateRequestBody": {
+        "type": "object",
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "Description": {
+            "type": "string"
+          },
+          "Tags": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "IconView": {
+        "type": "object",
+        "properties": {
+          "ID": {
+            "$ref": "#/components/schemas/ID"
+          },
+          "Name": {
+            "type": "string"
+          },
+          "Scope": {
+            "type": "string"
+          },
+          "URL": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "ID",
+          "Name",
+          "Scope",
+          "URL"
         ]
       },
       "Icon": {
@@ -1049,7 +1801,7 @@
             "type": "integer"
           },
           "FTPServer": {
-            "$ref": "#/components/schemas/FTPServer"
+            "$ref": "#/components/schemas/FTPServerBody"
           },
           "ID": {
             "$ref": "#/components/schemas/ID"

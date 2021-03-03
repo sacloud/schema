@@ -1,0 +1,7 @@
+allOf:
+  - $ref: '../common/FindRequest.yaml'
+  - type: object
+    additionalProperties: true
+    properties:
+      Filter:
+        $ref: "./Filter.yaml"

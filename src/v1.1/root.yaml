@@ -23,6 +23,8 @@ servers:
           - tk1b
           - tk1v
 tags:
+  - name: cdroms
+    description: Operations for CD-ROM resource
   - name: icons
     description: Operations for Icon resource
   - name: regions
@@ -30,6 +32,15 @@ tags:
   - name: zones
     description: Operations for Zone resource
 paths:
+  # cdrom
+  /cdrom?{params}:
+    $ref: './paths/cdrom/find.yaml'
+  /cdrom:
+    $ref: './paths/cdrom/create.yaml'
+  /cdrom/{cdromId}:
+    $ref: './paths/cdrom/actions.yaml'
+  /cdrom/{cdromId}/ftp:
+    $ref: './paths/cdrom/ftp.yaml'
   # /icon
   /icon?{params}:
     $ref: './paths/icon/find.yaml'

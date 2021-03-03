@@ -1,0 +1,46 @@
+type: object
+properties:
+  ID:
+    $ref: '../common/ID.yaml'
+  Name:
+    type: string
+  Scope:
+    $ref: '../common/Scope.yaml'
+  SizeMB:
+    $ref: './CDROMSizes.yaml'
+  Description:
+    type: string
+  Tags:
+    items:
+      type: string
+    type: array
+  Availability:
+    type: string
+  CreatedAt:
+    format: date-time
+    type: string
+  DisplayOrder:
+    type: integer
+  Icon:
+    $ref: '../icon/IconView.yaml'
+  ModifiedAt:
+    format: date-time
+    type: string
+# TODO 後で実装
+#  Storage:
+#    $ref: '#/definitions/Storage'
+#    $schema: http://json-schema.org/draft-04/schema#
+  StorageClass:
+    type: string
+required:
+  - ID
+  - Name
+  - Scope
+  - SizeMB
+  - Description
+  - Tags
+  - Availability
+  - CreatedAt
+  - DisplayOrder
+  - ModifiedAt
+  - StorageClass

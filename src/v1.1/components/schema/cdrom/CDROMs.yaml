@@ -1,0 +1,10 @@
+type: array
+items:
+  allOf:
+    - $ref: "./CDROM.yaml"
+    - type: object
+      properties:
+        Index:
+          type: integer
+      required:
+        - Index

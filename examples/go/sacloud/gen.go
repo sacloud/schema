@@ -40,10 +40,129 @@ type ActionResultEnvelope struct {
 	IsOk bool `json:"is_ok"`
 }
 
-// FTPServer defines model for FTPServer.
-type FTPServer struct {
+// CDROM defines model for CDROM.
+type CDROM struct {
+	Availability string     `json:"Availability"`
+	CreatedAt    time.Time  `json:"CreatedAt"`
+	Description  string     `json:"Description"`
+	DisplayOrder int        `json:"DisplayOrder"`
+	ID           ID         `json:"ID"`
+	Icon         *IconView  `json:"Icon,omitempty"`
+	ModifiedAt   time.Time  `json:"ModifiedAt"`
+	Name         string     `json:"Name"`
+	Scope        Scope      `json:"Scope"`
+	SizeMB       CDROMSizes `json:"SizeMB"`
+	StorageClass string     `json:"StorageClass"`
+	Tags         []string   `json:"Tags"`
+}
+
+// CDROMCreateRequest defines model for CDROMCreateRequest.
+type CDROMCreateRequest struct {
+	CDROM CDROMCreateRequestBody `json:"CDROM"`
+}
+
+// CDROMCreateRequestBody defines model for CDROMCreateRequestBody.
+type CDROMCreateRequestBody struct {
+	Description *string     `json:"Description,omitempty"`
+	Icon        *IDEnvelope `json:"Icon,omitempty"`
+	Name        string      `json:"Name"`
+	SizeMB      CDROMSizes  `json:"SizeMB"`
+	Tags        *[]string   `json:"Tags,omitempty"`
+}
+
+// CDROMCreateResponse defines model for CDROMCreateResponse.
+type CDROMCreateResponse struct {
+	// Embedded struct due to allOf(#/components/schemas/ActionResultEnvelope)
+	ActionResultEnvelope `yaml:",inline"`
+	// Embedded struct due to allOf(#/components/schemas/CDROMWrapper)
+	CDROMWrapper `yaml:",inline"`
+	// Embedded struct due to allOf(#/components/schemas/FTPServerDetail)
+	FTPServerDetail `yaml:",inline"`
+}
+
+// CDROMFilter defines model for CDROMFilter.
+type CDROMFilter struct {
+	Name                 *[]string              `json:"Name,omitempty"`
+	Scope                *Scope                 `json:"Scope,omitempty"`
+	TagsName             *[]string              `json:"Tags.Name,omitempty"`
+	AdditionalProperties map[string]interface{} `json:"-"`
+}
+
+// CDROMFindRequest defines model for CDROMFindRequest.
+type CDROMFindRequest struct {
+	// Embedded struct due to allOf(#/components/schemas/FindRequest)
+	FindRequest `yaml:",inline"`
+	// Embedded fields due to inline allOf schema
+	Filter               *CDROMFilter           `json:"Filter,omitempty"`
+	AdditionalProperties map[string]interface{} `json:"-"`
+}
+
+// CDROMMultiResponse defines model for CDROMMultiResponse.
+type CDROMMultiResponse struct {
+	// Embedded struct due to allOf(#/components/schemas/FindResultEnvelope)
+	FindResultEnvelope `yaml:",inline"`
+	// Embedded struct due to allOf(#/components/schemas/CDROMsWrapper)
+	CDROMsWrapper `yaml:",inline"`
+}
+
+// CDROMSingleResponse defines model for CDROMSingleResponse.
+type CDROMSingleResponse struct {
+	// Embedded struct due to allOf(#/components/schemas/ActionResultEnvelope)
+	ActionResultEnvelope `yaml:",inline"`
+	// Embedded struct due to allOf(#/components/schemas/CDROMWrapper)
+	CDROMWrapper `yaml:",inline"`
+}
+
+// CDROMSizes defines model for CDROMSizes.
+type CDROMSizes int
+
+// CDROMUpdateRequest defines model for CDROMUpdateRequest.
+type CDROMUpdateRequest struct {
+	CDROM CDROMUpdateRequestBody `json:"CDROM"`
+}
+
+// CDROMUpdateRequestBody defines model for CDROMUpdateRequestBody.
+type CDROMUpdateRequestBody struct {
+	Description *string   `json:"Description,omitempty"`
+	Name        *string   `json:"Name,omitempty"`
+	Tags        *[]string `json:"Tags,omitempty"`
+}
+
+// CDROMWrapper defines model for CDROMWrapper.
+type CDROMWrapper struct {
+	CDROM CDROM `json:"CDROM"`
+}
+
+// CDROMs defines model for CDROMs.
+type CDROMs []struct {
+	// Embedded struct due to allOf(#/components/schemas/CDROM)
+	CDROM `yaml:",inline"`
+	// Embedded fields due to inline allOf schema
+	Index int `json:"Index"`
+}
+
+// CDROMsWrapper defines model for CDROMsWrapper.
+type CDROMsWrapper struct {
+	CDROMs CDROMs `json:"CDROMs"`
+}
+
+// FTPServerBody defines model for FTPServerBody.
+type FTPServerBody struct {
 	HostName  string `json:"HostName"`
 	IPAddress string `json:"IPAddress"`
+}
+
+// FTPServerDetail defines model for FTPServerDetail.
+type FTPServerDetail struct {
+	FTPServer FTPServerDetailBody `json:"FTPServer"`
+}
+
+// FTPServerDetailBody defines model for FTPServerDetailBody.
+type FTPServerDetailBody struct {
+	HostName  string `json:"HostName"`
+	IPAddress string `json:"IPAddress"`
+	Password  string `json:"Password"`
+	User      string `json:"User"`
 }
 
 // FindRequest defines model for FindRequest.
@@ -65,6 +184,11 @@ type FindResultEnvelope struct {
 
 // ID defines model for ID.
 type ID interface{}
+
+// IDEnvelope defines model for IDEnvelope.
+type IDEnvelope struct {
+	ID *ID `json:"ID,omitempty"`
+}
 
 // Icon defines model for Icon.
 type Icon struct {
@@ -132,6 +256,14 @@ type IconUpdateRequest struct {
 type IconUpdateRequestBody struct {
 	Name *string   `json:"Name,omitempty"`
 	Tags *[]string `json:"Tags,omitempty"`
+}
+
+// IconView defines model for IconView.
+type IconView struct {
+	ID    ID     `json:"ID"`
+	Name  string `json:"Name"`
+	Scope string `json:"Scope"`
+	URL   string `json:"URL"`
 }
 
 // IconWrapper defines model for IconWrapper.
@@ -226,15 +358,15 @@ type VNCProxy struct {
 
 // Zone defines model for Zone.
 type Zone struct {
-	CreatedAt    time.Time `json:"CreatedAt"`
-	Description  string    `json:"Description"`
-	DisplayOrder int       `json:"DisplayOrder"`
-	FTPServer    FTPServer `json:"FTPServer"`
-	ID           ID        `json:"ID"`
-	IsDummy      bool      `json:"IsDummy"`
-	Name         string    `json:"Name"`
-	Region       Region    `json:"Region"`
-	VNCProxy     VNCProxy  `json:"VNCProxy"`
+	CreatedAt    time.Time     `json:"CreatedAt"`
+	Description  string        `json:"Description"`
+	DisplayOrder int           `json:"DisplayOrder"`
+	FTPServer    FTPServerBody `json:"FTPServer"`
+	ID           ID            `json:"ID"`
+	IsDummy      bool          `json:"IsDummy"`
+	Name         string        `json:"Name"`
+	Region       Region        `json:"Region"`
+	VNCProxy     VNCProxy      `json:"VNCProxy"`
 }
 
 // ZoneFindFilter defines model for ZoneFindFilter.
@@ -319,17 +451,195 @@ type Unauthorized APIError
 // UnexpectedError defines model for UnexpectedError.
 type UnexpectedError APIError
 
-// CreateIconsJSONBody defines parameters for CreateIcons.
-type CreateIconsJSONBody IconCreateRequest
+// CreateCDROMJSONBody defines parameters for CreateCDROM.
+type CreateCDROMJSONBody CDROMCreateRequest
+
+// UpdateCDROMByIdJSONBody defines parameters for UpdateCDROMById.
+type UpdateCDROMByIdJSONBody CDROMUpdateRequest
+
+// CreateIconJSONBody defines parameters for CreateIcon.
+type CreateIconJSONBody IconCreateRequest
 
 // UpdateIconByIdJSONBody defines parameters for UpdateIconById.
 type UpdateIconByIdJSONBody IconUpdateRequest
 
-// CreateIconsJSONRequestBody defines body for CreateIcons for application/json ContentType.
-type CreateIconsJSONRequestBody CreateIconsJSONBody
+// CreateCDROMJSONRequestBody defines body for CreateCDROM for application/json ContentType.
+type CreateCDROMJSONRequestBody CreateCDROMJSONBody
+
+// UpdateCDROMByIdJSONRequestBody defines body for UpdateCDROMById for application/json ContentType.
+type UpdateCDROMByIdJSONRequestBody UpdateCDROMByIdJSONBody
+
+// CreateIconJSONRequestBody defines body for CreateIcon for application/json ContentType.
+type CreateIconJSONRequestBody CreateIconJSONBody
 
 // UpdateIconByIdJSONRequestBody defines body for UpdateIconById for application/json ContentType.
 type UpdateIconByIdJSONRequestBody UpdateIconByIdJSONBody
+
+// Getter for additional properties for CDROMFilter. Returns the specified
+// element and whether it was found
+func (a CDROMFilter) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for CDROMFilter
+func (a *CDROMFilter) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]interface{})
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for CDROMFilter to handle AdditionalProperties
+func (a *CDROMFilter) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["Name"]; found {
+		err = json.Unmarshal(raw, &a.Name)
+		if err != nil {
+			return errors.Wrap(err, "error reading 'Name'")
+		}
+		delete(object, "Name")
+	}
+
+	if raw, found := object["Scope"]; found {
+		err = json.Unmarshal(raw, &a.Scope)
+		if err != nil {
+			return errors.Wrap(err, "error reading 'Scope'")
+		}
+		delete(object, "Scope")
+	}
+
+	if raw, found := object["Tags.Name"]; found {
+		err = json.Unmarshal(raw, &a.TagsName)
+		if err != nil {
+			return errors.Wrap(err, "error reading 'Tags.Name'")
+		}
+		delete(object, "Tags.Name")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]interface{})
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return errors.Wrap(err, fmt.Sprintf("error unmarshaling field %s", fieldName))
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for CDROMFilter to handle AdditionalProperties
+func (a CDROMFilter) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Name != nil {
+		object["Name"], err = json.Marshal(a.Name)
+		if err != nil {
+			return nil, errors.Wrap(err, fmt.Sprintf("error marshaling 'Name'"))
+		}
+	}
+
+	if a.Scope != nil {
+		object["Scope"], err = json.Marshal(a.Scope)
+		if err != nil {
+			return nil, errors.Wrap(err, fmt.Sprintf("error marshaling 'Scope'"))
+		}
+	}
+
+	if a.TagsName != nil {
+		object["Tags.Name"], err = json.Marshal(a.TagsName)
+		if err != nil {
+			return nil, errors.Wrap(err, fmt.Sprintf("error marshaling 'Tags.Name'"))
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, errors.Wrap(err, fmt.Sprintf("error marshaling '%s'", fieldName))
+		}
+	}
+	return json.Marshal(object)
+}
+
+// Getter for additional properties for CDROMFindRequest. Returns the specified
+// element and whether it was found
+func (a CDROMFindRequest) Get(fieldName string) (value interface{}, found bool) {
+	if a.AdditionalProperties != nil {
+		value, found = a.AdditionalProperties[fieldName]
+	}
+	return
+}
+
+// Setter for additional properties for CDROMFindRequest
+func (a *CDROMFindRequest) Set(fieldName string, value interface{}) {
+	if a.AdditionalProperties == nil {
+		a.AdditionalProperties = make(map[string]interface{})
+	}
+	a.AdditionalProperties[fieldName] = value
+}
+
+// Override default JSON handling for CDROMFindRequest to handle AdditionalProperties
+func (a *CDROMFindRequest) UnmarshalJSON(b []byte) error {
+	object := make(map[string]json.RawMessage)
+	err := json.Unmarshal(b, &object)
+	if err != nil {
+		return err
+	}
+
+	if raw, found := object["Filter"]; found {
+		err = json.Unmarshal(raw, &a.Filter)
+		if err != nil {
+			return errors.Wrap(err, "error reading 'Filter'")
+		}
+		delete(object, "Filter")
+	}
+
+	if len(object) != 0 {
+		a.AdditionalProperties = make(map[string]interface{})
+		for fieldName, fieldBuf := range object {
+			var fieldVal interface{}
+			err := json.Unmarshal(fieldBuf, &fieldVal)
+			if err != nil {
+				return errors.Wrap(err, fmt.Sprintf("error unmarshaling field %s", fieldName))
+			}
+			a.AdditionalProperties[fieldName] = fieldVal
+		}
+	}
+	return nil
+}
+
+// Override default JSON handling for CDROMFindRequest to handle AdditionalProperties
+func (a CDROMFindRequest) MarshalJSON() ([]byte, error) {
+	var err error
+	object := make(map[string]json.RawMessage)
+
+	if a.Filter != nil {
+		object["Filter"], err = json.Marshal(a.Filter)
+		if err != nil {
+			return nil, errors.Wrap(err, fmt.Sprintf("error marshaling 'Filter'"))
+		}
+	}
+
+	for fieldName, field := range a.AdditionalProperties {
+		object[fieldName], err = json.Marshal(field)
+		if err != nil {
+			return nil, errors.Wrap(err, fmt.Sprintf("error marshaling '%s'", fieldName))
+		}
+	}
+	return json.Marshal(object)
+}
 
 // Getter for additional properties for IconFindFilter. Returns the specified
 // element and whether it was found
@@ -887,10 +1197,35 @@ func WithRequestEditorFn(fn RequestEditorFn) ClientOption {
 
 // The interface specification for the client above.
 type ClientInterface interface {
-	// CreateIcons request  with any body
-	CreateIconsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+	// CreateCDROM request  with any body
+	CreateCDROMWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
 
-	CreateIcons(ctx context.Context, body CreateIconsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+	CreateCDROM(ctx context.Context, body CreateCDROMJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// DeleteCDROMById request
+	DeleteCDROMById(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ShowCDROMById request
+	ShowCDROMById(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// UpdateCDROMById request  with any body
+	UpdateCDROMByIdWithBody(ctx context.Context, cdromId ID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	UpdateCDROMById(ctx context.Context, cdromId ID, body UpdateCDROMByIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CloseFTP request
+	CloseFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// OpenFTP request
+	OpenFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// ListCDROMs request
+	ListCDROMs(ctx context.Context, params CDROMFindRequest, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// CreateIcon request  with any body
+	CreateIconWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	CreateIcon(ctx context.Context, body CreateIconJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
 	// DeleteIconById request
 	DeleteIconById(ctx context.Context, iconId ID, reqEditors ...RequestEditorFn) (*http.Response, error)
@@ -919,8 +1254,8 @@ type ClientInterface interface {
 	ListZones(ctx context.Context, params ZoneFindRequest, reqEditors ...RequestEditorFn) (*http.Response, error)
 }
 
-func (c *Client) CreateIconsWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateIconsRequestWithBody(c.Server, contentType, body)
+func (c *Client) CreateCDROMWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateCDROMRequestWithBody(c.Server, contentType, body)
 	if err != nil {
 		return nil, err
 	}
@@ -930,8 +1265,107 @@ func (c *Client) CreateIconsWithBody(ctx context.Context, contentType string, bo
 	return c.Client.Do(req)
 }
 
-func (c *Client) CreateIcons(ctx context.Context, body CreateIconsJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
-	req, err := NewCreateIconsRequest(c.Server, body)
+func (c *Client) CreateCDROM(ctx context.Context, body CreateCDROMJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateCDROMRequest(c.Server, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) DeleteCDROMById(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewDeleteCDROMByIdRequest(c.Server, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ShowCDROMById(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewShowCDROMByIdRequest(c.Server, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateCDROMByIdWithBody(ctx context.Context, cdromId ID, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateCDROMByIdRequestWithBody(c.Server, cdromId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) UpdateCDROMById(ctx context.Context, cdromId ID, body UpdateCDROMByIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewUpdateCDROMByIdRequest(c.Server, cdromId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CloseFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCloseFTPRequest(c.Server, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) OpenFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewOpenFTPRequest(c.Server, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) ListCDROMs(ctx context.Context, params CDROMFindRequest, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewListCDROMsRequest(c.Server, params)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateIconWithBody(ctx context.Context, contentType string, body io.Reader, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateIconRequestWithBody(c.Server, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CreateIcon(ctx context.Context, body CreateIconJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCreateIconRequest(c.Server, body)
 	if err != nil {
 		return nil, err
 	}
@@ -1040,19 +1474,278 @@ func (c *Client) ListZones(ctx context.Context, params ZoneFindRequest, reqEdito
 	return c.Client.Do(req)
 }
 
-// NewCreateIconsRequest calls the generic CreateIcons builder with application/json body
-func NewCreateIconsRequest(server string, body CreateIconsJSONRequestBody) (*http.Request, error) {
+// NewCreateCDROMRequest calls the generic CreateCDROM builder with application/json body
+func NewCreateCDROMRequest(server string, body CreateCDROMJSONRequestBody) (*http.Request, error) {
 	var bodyReader io.Reader
 	buf, err := json.Marshal(body)
 	if err != nil {
 		return nil, err
 	}
 	bodyReader = bytes.NewReader(buf)
-	return NewCreateIconsRequestWithBody(server, "application/json", bodyReader)
+	return NewCreateCDROMRequestWithBody(server, "application/json", bodyReader)
 }
 
-// NewCreateIconsRequestWithBody generates requests for CreateIcons with any type of body
-func NewCreateIconsRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+// NewCreateCDROMRequestWithBody generates requests for CreateCDROM with any type of body
+func NewCreateCDROMRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom")
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("POST", queryUrl.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewDeleteCDROMByIdRequest generates requests for DeleteCDROMById
+func NewDeleteCDROMByIdRequest(server string, cdromId ID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParam("simple", false, "cdromId", cdromId)
+	if err != nil {
+		return nil, err
+	}
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom/%s", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryUrl.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewShowCDROMByIdRequest generates requests for ShowCDROMById
+func NewShowCDROMByIdRequest(server string, cdromId ID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParam("simple", false, "cdromId", cdromId)
+	if err != nil {
+		return nil, err
+	}
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom/%s", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryUrl.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewUpdateCDROMByIdRequest calls the generic UpdateCDROMById builder with application/json body
+func NewUpdateCDROMByIdRequest(server string, cdromId ID, body UpdateCDROMByIdJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewUpdateCDROMByIdRequestWithBody(server, cdromId, "application/json", bodyReader)
+}
+
+// NewUpdateCDROMByIdRequestWithBody generates requests for UpdateCDROMById with any type of body
+func NewUpdateCDROMByIdRequestWithBody(server string, cdromId ID, contentType string, body io.Reader) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParam("simple", false, "cdromId", cdromId)
+	if err != nil {
+		return nil, err
+	}
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom/%s", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryUrl.String(), body)
+	if err != nil {
+		return nil, err
+	}
+
+	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCloseFTPRequest generates requests for CloseFTP
+func NewCloseFTPRequest(server string, cdromId ID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParam("simple", false, "cdromId", cdromId)
+	if err != nil {
+		return nil, err
+	}
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom/%s/ftp", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryUrl.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewOpenFTPRequest generates requests for OpenFTP
+func NewOpenFTPRequest(server string, cdromId ID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParam("simple", false, "cdromId", cdromId)
+	if err != nil {
+		return nil, err
+	}
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom/%s/ftp", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryUrl.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewListCDROMsRequest generates requests for ListCDROMs
+func NewListCDROMsRequest(server string, params CDROMFindRequest) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	var pathParamBuf0 []byte
+	pathParamBuf0, err = json.Marshal(params)
+	if err != nil {
+		return nil, err
+	}
+	pathParam0 = string(pathParamBuf0)
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom?%s", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("GET", queryUrl.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewCreateIconRequest calls the generic CreateIcon builder with application/json body
+func NewCreateIconRequest(server string, body CreateIconJSONRequestBody) (*http.Request, error) {
+	var bodyReader io.Reader
+	buf, err := json.Marshal(body)
+	if err != nil {
+		return nil, err
+	}
+	bodyReader = bytes.NewReader(buf)
+	return NewCreateIconRequestWithBody(server, "application/json", bodyReader)
+}
+
+// NewCreateIconRequestWithBody generates requests for CreateIcon with any type of body
+func NewCreateIconRequestWithBody(server string, contentType string, body io.Reader) (*http.Request, error) {
 	var err error
 
 	queryUrl, err := url.Parse(server)
@@ -1415,10 +2108,35 @@ func WithBaseURL(baseURL string) ClientOption {
 
 // ClientWithResponsesInterface is the interface specification for the client with responses above.
 type ClientWithResponsesInterface interface {
-	// CreateIcons request  with any body
-	CreateIconsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader) (*CreateIconsResponse, error)
+	// CreateCDROM request  with any body
+	CreateCDROMWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader) (*CreateCDROMResponse, error)
 
-	CreateIconsWithResponse(ctx context.Context, body CreateIconsJSONRequestBody) (*CreateIconsResponse, error)
+	CreateCDROMWithResponse(ctx context.Context, body CreateCDROMJSONRequestBody) (*CreateCDROMResponse, error)
+
+	// DeleteCDROMById request
+	DeleteCDROMByIdWithResponse(ctx context.Context, cdromId ID) (*DeleteCDROMByIdResponse, error)
+
+	// ShowCDROMById request
+	ShowCDROMByIdWithResponse(ctx context.Context, cdromId ID) (*ShowCDROMByIdResponse, error)
+
+	// UpdateCDROMById request  with any body
+	UpdateCDROMByIdWithBodyWithResponse(ctx context.Context, cdromId ID, contentType string, body io.Reader) (*UpdateCDROMByIdResponse, error)
+
+	UpdateCDROMByIdWithResponse(ctx context.Context, cdromId ID, body UpdateCDROMByIdJSONRequestBody) (*UpdateCDROMByIdResponse, error)
+
+	// CloseFTP request
+	CloseFTPWithResponse(ctx context.Context, cdromId ID) (*CloseFTPResponse, error)
+
+	// OpenFTP request
+	OpenFTPWithResponse(ctx context.Context, cdromId ID) (*OpenFTPResponse, error)
+
+	// ListCDROMs request
+	ListCDROMsWithResponse(ctx context.Context, params CDROMFindRequest) (*ListCDROMsResponse, error)
+
+	// CreateIcon request  with any body
+	CreateIconWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader) (*CreateIconResponse, error)
+
+	CreateIconWithResponse(ctx context.Context, body CreateIconJSONRequestBody) (*CreateIconResponse, error)
 
 	// DeleteIconById request
 	DeleteIconByIdWithResponse(ctx context.Context, iconId ID) (*DeleteIconByIdResponse, error)
@@ -1447,7 +2165,227 @@ type ClientWithResponsesInterface interface {
 	ListZonesWithResponse(ctx context.Context, params ZoneFindRequest) (*ListZonesResponse, error)
 }
 
-type CreateIconsResponse struct {
+type CreateCDROMResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON201      *CDROMCreateResponse
+	JSON400      *APIError
+	JSON401      *APIError
+	JSON403      *APIError
+	JSON405      *APIError
+	JSON500      *APIError
+	JSON503      *APIError
+	JSONDefault  *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r CreateCDROMResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CreateCDROMResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type DeleteCDROMByIdResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CDROMSingleResponse
+	JSON400      *APIError
+	JSON401      *APIError
+	JSON403      *APIError
+	JSON404      *APIError
+	JSON405      *APIError
+	JSON409      *APIError
+	JSON423      *APIError
+	JSON500      *APIError
+	JSON503      *APIError
+	JSONDefault  *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r DeleteCDROMByIdResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r DeleteCDROMByIdResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ShowCDROMByIdResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CDROMSingleResponse
+	JSON400      *APIError
+	JSON401      *APIError
+	JSON403      *APIError
+	JSON404      *APIError
+	JSON500      *APIError
+	JSON503      *APIError
+	JSONDefault  *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r ShowCDROMByIdResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ShowCDROMByIdResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type UpdateCDROMByIdResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CDROMSingleResponse
+	JSON400      *APIError
+	JSON401      *APIError
+	JSON403      *APIError
+	JSON404      *APIError
+	JSON405      *APIError
+	JSON409      *APIError
+	JSON423      *APIError
+	JSON500      *APIError
+	JSON503      *APIError
+	JSONDefault  *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r UpdateCDROMByIdResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r UpdateCDROMByIdResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CloseFTPResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ActionResultEnvelope
+	JSON400      *APIError
+	JSON401      *APIError
+	JSON403      *APIError
+	JSON404      *APIError
+	JSON405      *APIError
+	JSON409      *APIError
+	JSON423      *APIError
+	JSON500      *APIError
+	JSON503      *APIError
+	JSONDefault  *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r CloseFTPResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CloseFTPResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type OpenFTPResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Embedded struct due to allOf(#/components/schemas/ActionResultEnvelope)
+		ActionResultEnvelope `yaml:",inline"`
+		// Embedded struct due to allOf(#/components/schemas/FTPServerDetail)
+		FTPServerDetail `yaml:",inline"`
+	}
+	JSON400     *APIError
+	JSON401     *APIError
+	JSON403     *APIError
+	JSON404     *APIError
+	JSON405     *APIError
+	JSON409     *APIError
+	JSON423     *APIError
+	JSON500     *APIError
+	JSON503     *APIError
+	JSONDefault *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r OpenFTPResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r OpenFTPResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type ListCDROMsResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *CDROMMultiResponse
+	JSON400      *APIError
+	JSON401      *APIError
+	JSON403      *APIError
+	JSON405      *APIError
+	JSON500      *APIError
+	JSON503      *APIError
+	JSONDefault  *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r ListCDROMsResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r ListCDROMsResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CreateIconResponse struct {
 	Body         []byte
 	HTTPResponse *http.Response
 	JSON201      *IconSingleResponse
@@ -1461,7 +2399,7 @@ type CreateIconsResponse struct {
 }
 
 // Status returns HTTPResponse.Status
-func (r CreateIconsResponse) Status() string {
+func (r CreateIconResponse) Status() string {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.Status
 	}
@@ -1469,7 +2407,7 @@ func (r CreateIconsResponse) Status() string {
 }
 
 // StatusCode returns HTTPResponse.StatusCode
-func (r CreateIconsResponse) StatusCode() int {
+func (r CreateIconResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -1714,21 +2652,100 @@ func (r ListZonesResponse) StatusCode() int {
 	return 0
 }
 
-// CreateIconsWithBodyWithResponse request with arbitrary body returning *CreateIconsResponse
-func (c *ClientWithResponses) CreateIconsWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader) (*CreateIconsResponse, error) {
-	rsp, err := c.CreateIconsWithBody(ctx, contentType, body)
+// CreateCDROMWithBodyWithResponse request with arbitrary body returning *CreateCDROMResponse
+func (c *ClientWithResponses) CreateCDROMWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader) (*CreateCDROMResponse, error) {
+	rsp, err := c.CreateCDROMWithBody(ctx, contentType, body)
 	if err != nil {
 		return nil, err
 	}
-	return ParseCreateIconsResponse(rsp)
+	return ParseCreateCDROMResponse(rsp)
 }
 
-func (c *ClientWithResponses) CreateIconsWithResponse(ctx context.Context, body CreateIconsJSONRequestBody) (*CreateIconsResponse, error) {
-	rsp, err := c.CreateIcons(ctx, body)
+func (c *ClientWithResponses) CreateCDROMWithResponse(ctx context.Context, body CreateCDROMJSONRequestBody) (*CreateCDROMResponse, error) {
+	rsp, err := c.CreateCDROM(ctx, body)
 	if err != nil {
 		return nil, err
 	}
-	return ParseCreateIconsResponse(rsp)
+	return ParseCreateCDROMResponse(rsp)
+}
+
+// DeleteCDROMByIdWithResponse request returning *DeleteCDROMByIdResponse
+func (c *ClientWithResponses) DeleteCDROMByIdWithResponse(ctx context.Context, cdromId ID) (*DeleteCDROMByIdResponse, error) {
+	rsp, err := c.DeleteCDROMById(ctx, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	return ParseDeleteCDROMByIdResponse(rsp)
+}
+
+// ShowCDROMByIdWithResponse request returning *ShowCDROMByIdResponse
+func (c *ClientWithResponses) ShowCDROMByIdWithResponse(ctx context.Context, cdromId ID) (*ShowCDROMByIdResponse, error) {
+	rsp, err := c.ShowCDROMById(ctx, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	return ParseShowCDROMByIdResponse(rsp)
+}
+
+// UpdateCDROMByIdWithBodyWithResponse request with arbitrary body returning *UpdateCDROMByIdResponse
+func (c *ClientWithResponses) UpdateCDROMByIdWithBodyWithResponse(ctx context.Context, cdromId ID, contentType string, body io.Reader) (*UpdateCDROMByIdResponse, error) {
+	rsp, err := c.UpdateCDROMByIdWithBody(ctx, cdromId, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateCDROMByIdResponse(rsp)
+}
+
+func (c *ClientWithResponses) UpdateCDROMByIdWithResponse(ctx context.Context, cdromId ID, body UpdateCDROMByIdJSONRequestBody) (*UpdateCDROMByIdResponse, error) {
+	rsp, err := c.UpdateCDROMById(ctx, cdromId, body)
+	if err != nil {
+		return nil, err
+	}
+	return ParseUpdateCDROMByIdResponse(rsp)
+}
+
+// CloseFTPWithResponse request returning *CloseFTPResponse
+func (c *ClientWithResponses) CloseFTPWithResponse(ctx context.Context, cdromId ID) (*CloseFTPResponse, error) {
+	rsp, err := c.CloseFTP(ctx, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCloseFTPResponse(rsp)
+}
+
+// OpenFTPWithResponse request returning *OpenFTPResponse
+func (c *ClientWithResponses) OpenFTPWithResponse(ctx context.Context, cdromId ID) (*OpenFTPResponse, error) {
+	rsp, err := c.OpenFTP(ctx, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	return ParseOpenFTPResponse(rsp)
+}
+
+// ListCDROMsWithResponse request returning *ListCDROMsResponse
+func (c *ClientWithResponses) ListCDROMsWithResponse(ctx context.Context, params CDROMFindRequest) (*ListCDROMsResponse, error) {
+	rsp, err := c.ListCDROMs(ctx, params)
+	if err != nil {
+		return nil, err
+	}
+	return ParseListCDROMsResponse(rsp)
+}
+
+// CreateIconWithBodyWithResponse request with arbitrary body returning *CreateIconResponse
+func (c *ClientWithResponses) CreateIconWithBodyWithResponse(ctx context.Context, contentType string, body io.Reader) (*CreateIconResponse, error) {
+	rsp, err := c.CreateIconWithBody(ctx, contentType, body)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateIconResponse(rsp)
+}
+
+func (c *ClientWithResponses) CreateIconWithResponse(ctx context.Context, body CreateIconJSONRequestBody) (*CreateIconResponse, error) {
+	rsp, err := c.CreateIcon(ctx, body)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCreateIconResponse(rsp)
 }
 
 // DeleteIconByIdWithResponse request returning *DeleteIconByIdResponse
@@ -1811,15 +2828,629 @@ func (c *ClientWithResponses) ListZonesWithResponse(ctx context.Context, params 
 	return ParseListZonesResponse(rsp)
 }
 
-// ParseCreateIconsResponse parses an HTTP response from a CreateIconsWithResponse call
-func ParseCreateIconsResponse(rsp *http.Response) (*CreateIconsResponse, error) {
+// ParseCreateCDROMResponse parses an HTTP response from a CreateCDROMWithResponse call
+func ParseCreateCDROMResponse(rsp *http.Response) (*CreateCDROMResponse, error) {
 	bodyBytes, err := ioutil.ReadAll(rsp.Body)
 	defer rsp.Body.Close()
 	if err != nil {
 		return nil, err
 	}
 
-	response := &CreateIconsResponse{
+	response := &CreateCDROMResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 201:
+		var dest CDROMCreateResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON201 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseDeleteCDROMByIdResponse parses an HTTP response from a DeleteCDROMByIdWithResponse call
+func ParseDeleteCDROMByIdResponse(rsp *http.Response) (*DeleteCDROMByIdResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &DeleteCDROMByIdResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CDROMSingleResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 423:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON423 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseShowCDROMByIdResponse parses an HTTP response from a ShowCDROMByIdWithResponse call
+func ParseShowCDROMByIdResponse(rsp *http.Response) (*ShowCDROMByIdResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ShowCDROMByIdResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CDROMSingleResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseUpdateCDROMByIdResponse parses an HTTP response from a UpdateCDROMByIdWithResponse call
+func ParseUpdateCDROMByIdResponse(rsp *http.Response) (*UpdateCDROMByIdResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &UpdateCDROMByIdResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CDROMSingleResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 423:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON423 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCloseFTPResponse parses an HTTP response from a CloseFTPWithResponse call
+func ParseCloseFTPResponse(rsp *http.Response) (*CloseFTPResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CloseFTPResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ActionResultEnvelope
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 423:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON423 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseOpenFTPResponse parses an HTTP response from a OpenFTPWithResponse call
+func ParseOpenFTPResponse(rsp *http.Response) (*OpenFTPResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &OpenFTPResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Embedded struct due to allOf(#/components/schemas/ActionResultEnvelope)
+			ActionResultEnvelope `yaml:",inline"`
+			// Embedded struct due to allOf(#/components/schemas/FTPServerDetail)
+			FTPServerDetail `yaml:",inline"`
+		}
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 423:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON423 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseListCDROMsResponse parses an HTTP response from a ListCDROMsWithResponse call
+func ParseListCDROMsResponse(rsp *http.Response) (*ListCDROMsResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &ListCDROMsResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest CDROMMultiResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCreateIconResponse parses an HTTP response from a CreateIconWithResponse call
+func ParseCreateIconResponse(rsp *http.Response) (*CreateIconResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CreateIconResponse{
 		Body:         bodyBytes,
 		HTTPResponse: rsp,
 	}
@@ -2531,43 +4162,52 @@ func ParseListZonesResponse(rsp *http.Response) (*ListZonesResponse, error) {
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"PzJnxz8AAA==",
+	"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",
 }
 
 // GetSwagger returns the Swagger specification corresponding to the generated code

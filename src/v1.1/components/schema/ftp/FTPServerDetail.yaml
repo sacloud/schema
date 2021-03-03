@@ -1,0 +1,6 @@
+type: object
+properties:
+  FTPServer:
+    $ref: './FTPServerDetailBody.yaml'
+required:
+  - FTPServer

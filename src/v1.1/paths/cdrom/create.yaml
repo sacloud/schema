@@ -1,22 +1,22 @@
 post:
-  summary: Create a icon
-  description: Create a icon
-  operationId: createIcon
+  summary: Create a CD-ROM
+  description: Create a CD-ROM
+  operationId: createCDROM
   tags:
-    - icons
+    - cdroms
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '../../components/schema/icon/CreateRequest.yaml'
+          $ref: '../../components/schema/cdrom/CreateRequest.yaml'
   responses:
     '201':
       description: Expected response to a valid request
       content:
         application/json:
           schema:
-            $ref: '../../components/schema/icon/SingleResponse.yaml'
+            $ref: '../../components/schema/cdrom/CreateResponse.yaml'
     '400':
       $ref: '../../components/responses/400.yaml'
     '401':

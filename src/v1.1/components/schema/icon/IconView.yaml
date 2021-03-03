@@ -1,0 +1,15 @@
+type: object
+properties:
+  ID:
+    $ref: "../common/ID.yaml"
+  Name:
+    type: string
+  Scope:
+    type: string
+  URL:
+    type: string
+required:
+  - ID
+  - Name
+  - Scope
+  - URL

@@ -8,7 +8,7 @@ properties:
   DisplayOrder:
     type: integer
   FTPServer:
-    $ref: '../common/FTPServer.yaml'
+    $ref: '../ftp/FTPServerBody.yaml'
   ID:
     $ref: '../common/ID.yaml'
   Name:

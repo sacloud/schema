@@ -1,0 +1,17 @@
+type: object
+properties:
+  Name:
+    type: string
+  Description:
+    type: string
+  Tags:
+    type: array
+    items:
+      type: string
+  SizeMB:
+    $ref: './CDROMSizes.yaml'
+  Icon:
+    $ref: '../common/IDEnvelope.yaml'
+required:
+  - Name
+  - SizeMB
