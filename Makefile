@@ -23,5 +23,5 @@ _gen:
 
 .PHONY: examples
 examples:
-	# docker run -it --rm -v $$PWD:$$PWD -w $$PWD openapitools/openapi-generator-cli generate -i definitions/v1.1/openapi.yaml -g rust -o examples/rust/
 	oapi-codegen -generate types,client,spec -package sacloud definitions/v1.1/openapi.yaml  > examples/go/sacloud/gen.go
+	#docker run -it --rm -v $$PWD:$$PWD -w $$PWD openapitools/openapi-generator-cli generate -i definitions/v1.1/openapi.yaml -g rust -o examples/rust/sacloud -p packageName=sacloud
