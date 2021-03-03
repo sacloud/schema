@@ -39,6 +39,8 @@ paths:
     $ref: './paths/cdrom/create.yaml'
   /cdrom/{cdromId}:
     $ref: './paths/cdrom/actions.yaml'
+  /cdrom/{cdromId}/ftp:
+    $ref: './paths/cdrom/ftp.yaml'
   # /icon
   /icon?{params}:
     $ref: './paths/icon/find.yaml'

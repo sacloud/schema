@@ -146,14 +146,19 @@ type CDROMsWrapper struct {
 	CDROMs CDROMs `json:"CDROMs"`
 }
 
-// FTPServer defines model for FTPServer.
-type FTPServer struct {
+// FTPServerBody defines model for FTPServerBody.
+type FTPServerBody struct {
 	HostName  string `json:"HostName"`
 	IPAddress string `json:"IPAddress"`
 }
 
 // FTPServerDetail defines model for FTPServerDetail.
 type FTPServerDetail struct {
+	FTPServer FTPServerDetailBody `json:"FTPServer"`
+}
+
+// FTPServerDetailBody defines model for FTPServerDetailBody.
+type FTPServerDetailBody struct {
 	HostName  string `json:"HostName"`
 	IPAddress string `json:"IPAddress"`
 	Password  string `json:"Password"`
@@ -353,15 +358,15 @@ type VNCProxy struct {
 
 // Zone defines model for Zone.
 type Zone struct {
-	CreatedAt    time.Time `json:"CreatedAt"`
-	Description  string    `json:"Description"`
-	DisplayOrder int       `json:"DisplayOrder"`
-	FTPServer    FTPServer `json:"FTPServer"`
-	ID           ID        `json:"ID"`
-	IsDummy      bool      `json:"IsDummy"`
-	Name         string    `json:"Name"`
-	Region       Region    `json:"Region"`
-	VNCProxy     VNCProxy  `json:"VNCProxy"`
+	CreatedAt    time.Time     `json:"CreatedAt"`
+	Description  string        `json:"Description"`
+	DisplayOrder int           `json:"DisplayOrder"`
+	FTPServer    FTPServerBody `json:"FTPServer"`
+	ID           ID            `json:"ID"`
+	IsDummy      bool          `json:"IsDummy"`
+	Name         string        `json:"Name"`
+	Region       Region        `json:"Region"`
+	VNCProxy     VNCProxy      `json:"VNCProxy"`
 }
 
 // ZoneFindFilter defines model for ZoneFindFilter.
@@ -1208,6 +1213,12 @@ type ClientInterface interface {
 
 	UpdateCDROMById(ctx context.Context, cdromId ID, body UpdateCDROMByIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error)
 
+	// CloseFTP request
+	CloseFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
+	// OpenFTP request
+	OpenFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error)
+
 	// ListCDROMs request
 	ListCDROMs(ctx context.Context, params CDROMFindRequest, reqEditors ...RequestEditorFn) (*http.Response, error)
 
@@ -1300,6 +1311,28 @@ func (c *Client) UpdateCDROMByIdWithBody(ctx context.Context, cdromId ID, conten
 
 func (c *Client) UpdateCDROMById(ctx context.Context, cdromId ID, body UpdateCDROMByIdJSONRequestBody, reqEditors ...RequestEditorFn) (*http.Response, error) {
 	req, err := NewUpdateCDROMByIdRequest(c.Server, cdromId, body)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) CloseFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewCloseFTPRequest(c.Server, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	if err := c.applyEditors(ctx, req, reqEditors); err != nil {
+		return nil, err
+	}
+	return c.Client.Do(req)
+}
+
+func (c *Client) OpenFTP(ctx context.Context, cdromId ID, reqEditors ...RequestEditorFn) (*http.Response, error) {
+	req, err := NewOpenFTPRequest(c.Server, cdromId)
 	if err != nil {
 		return nil, err
 	}
@@ -1592,6 +1625,74 @@ func NewUpdateCDROMByIdRequestWithBody(server string, cdromId ID, contentType st
 	}
 
 	req.Header.Add("Content-Type", contentType)
+
+	return req, nil
+}
+
+// NewCloseFTPRequest generates requests for CloseFTP
+func NewCloseFTPRequest(server string, cdromId ID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParam("simple", false, "cdromId", cdromId)
+	if err != nil {
+		return nil, err
+	}
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom/%s/ftp", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("DELETE", queryUrl.String(), nil)
+	if err != nil {
+		return nil, err
+	}
+
+	return req, nil
+}
+
+// NewOpenFTPRequest generates requests for OpenFTP
+func NewOpenFTPRequest(server string, cdromId ID) (*http.Request, error) {
+	var err error
+
+	var pathParam0 string
+
+	pathParam0, err = runtime.StyleParam("simple", false, "cdromId", cdromId)
+	if err != nil {
+		return nil, err
+	}
+
+	queryUrl, err := url.Parse(server)
+	if err != nil {
+		return nil, err
+	}
+
+	basePath := fmt.Sprintf("/cdrom/%s/ftp", pathParam0)
+	if basePath[0] == '/' {
+		basePath = basePath[1:]
+	}
+
+	queryUrl, err = queryUrl.Parse(basePath)
+	if err != nil {
+		return nil, err
+	}
+
+	req, err := http.NewRequest("PUT", queryUrl.String(), nil)
+	if err != nil {
+		return nil, err
+	}
 
 	return req, nil
 }
@@ -2023,6 +2124,12 @@ type ClientWithResponsesInterface interface {
 
 	UpdateCDROMByIdWithResponse(ctx context.Context, cdromId ID, body UpdateCDROMByIdJSONRequestBody) (*UpdateCDROMByIdResponse, error)
 
+	// CloseFTP request
+	CloseFTPWithResponse(ctx context.Context, cdromId ID) (*CloseFTPResponse, error)
+
+	// OpenFTP request
+	OpenFTPWithResponse(ctx context.Context, cdromId ID) (*OpenFTPResponse, error)
+
 	// ListCDROMs request
 	ListCDROMsWithResponse(ctx context.Context, params CDROMFindRequest) (*ListCDROMsResponse, error)
 
@@ -2174,6 +2281,75 @@ func (r UpdateCDROMByIdResponse) Status() string {
 
 // StatusCode returns HTTPResponse.StatusCode
 func (r UpdateCDROMByIdResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type CloseFTPResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *ActionResultEnvelope
+	JSON400      *APIError
+	JSON401      *APIError
+	JSON403      *APIError
+	JSON404      *APIError
+	JSON405      *APIError
+	JSON409      *APIError
+	JSON423      *APIError
+	JSON500      *APIError
+	JSON503      *APIError
+	JSONDefault  *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r CloseFTPResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r CloseFTPResponse) StatusCode() int {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.StatusCode
+	}
+	return 0
+}
+
+type OpenFTPResponse struct {
+	Body         []byte
+	HTTPResponse *http.Response
+	JSON200      *struct {
+		// Embedded struct due to allOf(#/components/schemas/ActionResultEnvelope)
+		ActionResultEnvelope `yaml:",inline"`
+		// Embedded struct due to allOf(#/components/schemas/FTPServerDetail)
+		FTPServerDetail `yaml:",inline"`
+	}
+	JSON400     *APIError
+	JSON401     *APIError
+	JSON403     *APIError
+	JSON404     *APIError
+	JSON405     *APIError
+	JSON409     *APIError
+	JSON423     *APIError
+	JSON500     *APIError
+	JSON503     *APIError
+	JSONDefault *APIError
+}
+
+// Status returns HTTPResponse.Status
+func (r OpenFTPResponse) Status() string {
+	if r.HTTPResponse != nil {
+		return r.HTTPResponse.Status
+	}
+	return http.StatusText(0)
+}
+
+// StatusCode returns HTTPResponse.StatusCode
+func (r OpenFTPResponse) StatusCode() int {
 	if r.HTTPResponse != nil {
 		return r.HTTPResponse.StatusCode
 	}
@@ -2526,6 +2702,24 @@ func (c *ClientWithResponses) UpdateCDROMByIdWithResponse(ctx context.Context, c
 		return nil, err
 	}
 	return ParseUpdateCDROMByIdResponse(rsp)
+}
+
+// CloseFTPWithResponse request returning *CloseFTPResponse
+func (c *ClientWithResponses) CloseFTPWithResponse(ctx context.Context, cdromId ID) (*CloseFTPResponse, error) {
+	rsp, err := c.CloseFTP(ctx, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	return ParseCloseFTPResponse(rsp)
+}
+
+// OpenFTPWithResponse request returning *OpenFTPResponse
+func (c *ClientWithResponses) OpenFTPWithResponse(ctx context.Context, cdromId ID) (*OpenFTPResponse, error) {
+	rsp, err := c.OpenFTP(ctx, cdromId)
+	if err != nil {
+		return nil, err
+	}
+	return ParseOpenFTPResponse(rsp)
 }
 
 // ListCDROMsWithResponse request returning *ListCDROMsResponse
@@ -2896,6 +3090,203 @@ func ParseUpdateCDROMByIdResponse(rsp *http.Response) (*UpdateCDROMByIdResponse,
 	switch {
 	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
 		var dest CDROMSingleResponse
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 423:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON423 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseCloseFTPResponse parses an HTTP response from a CloseFTPWithResponse call
+func ParseCloseFTPResponse(rsp *http.Response) (*CloseFTPResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &CloseFTPResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest ActionResultEnvelope
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON200 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 400:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON400 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 401:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON401 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 403:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON403 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 404:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON404 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 405:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON405 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 409:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON409 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 423:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON423 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 500:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON500 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 503:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSON503 = &dest
+
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && true:
+		var dest APIError
+		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
+			return nil, err
+		}
+		response.JSONDefault = &dest
+
+	}
+
+	return response, nil
+}
+
+// ParseOpenFTPResponse parses an HTTP response from a OpenFTPWithResponse call
+func ParseOpenFTPResponse(rsp *http.Response) (*OpenFTPResponse, error) {
+	bodyBytes, err := ioutil.ReadAll(rsp.Body)
+	defer rsp.Body.Close()
+	if err != nil {
+		return nil, err
+	}
+
+	response := &OpenFTPResponse{
+		Body:         bodyBytes,
+		HTTPResponse: rsp,
+	}
+
+	switch {
+	case strings.Contains(rsp.Header.Get("Content-Type"), "json") && rsp.StatusCode == 200:
+		var dest struct {
+			// Embedded struct due to allOf(#/components/schemas/ActionResultEnvelope)
+			ActionResultEnvelope `yaml:",inline"`
+			// Embedded struct due to allOf(#/components/schemas/FTPServerDetail)
+			FTPServerDetail `yaml:",inline"`
+		}
 		if err := json.Unmarshal(bodyBytes, &dest); err != nil {
 			return nil, err
 		}
@@ -3771,51 +4162,52 @@ func ParseListZonesResponse(rsp *http.Response) (*ListZonesResponse, error) {
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
-	"AAD//5UmgMJuXgAA",
+	"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",
 }
 
 // GetSwagger returns the Swagger specification corresponding to the generated code

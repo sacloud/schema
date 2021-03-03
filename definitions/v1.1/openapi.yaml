@@ -223,6 +223,89 @@ paths:
           $ref: '#/components/responses/ServiceUnavailable'
         default:
           $ref: '#/components/responses/UnexpectedError'
+  '/cdrom/{cdromId}/ftp':
+    put:
+      summary: Open FTP
+      description: Open FTP connection
+      operationId: openFTP
+      tags:
+        - cdroms
+      parameters:
+        - name: cdromId
+          in: path
+          required: true
+          description: The id of the cdrom to retrieve
+          schema:
+            $ref: '#/components/schemas/ID'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: '#/components/schemas/ActionResultEnvelope'
+                  - $ref: '#/components/schemas/FTPServerDetail'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '423':
+          $ref: '#/components/responses/Locked'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
+    delete:
+      summary: Close FTP connection
+      description: Close FTP connection
+      operationId: closeFTP
+      tags:
+        - cdroms
+      parameters:
+        - name: cdromId
+          in: path
+          required: true
+          description: The id of the cdrom to delete
+          schema:
+            $ref: '#/components/schemas/ID'
+      responses:
+        '200':
+          description: Expected response to a valid request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionResultEnvelope'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '405':
+          $ref: '#/components/responses/MethodNotAllowed'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '423':
+          $ref: '#/components/responses/Locked'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+        '503':
+          $ref: '#/components/responses/ServiceUnavailable'
+        default:
+          $ref: '#/components/responses/UnexpectedError'
   '/icon?{params}':
     get:
       summary: List all Icons
@@ -625,32 +708,6 @@ components:
         - From
         - Total
         - is_ok
-    FTPServer:
-      type: object
-      properties:
-        HostName:
-          type: string
-        IPAddress:
-          type: string
-      required:
-        - HostName
-        - IPAddress
-    FTPServerDetail:
-      type: object
-      properties:
-        HostName:
-          type: string
-        IPAddress:
-          type: string
-        User:
-          type: string
-        Password:
-          type: string
-      required:
-        - HostName
-        - IPAddress
-        - User
-        - Password
     ID:
       oneOf:
         - type: integer
@@ -676,6 +733,46 @@ components:
       required:
         - HostName
         - IPAddress
+    FTPServer:
+      type: object
+      properties:
+        FTPServer:
+          $ref: '#/components/schemas/FTPServerBody'
+      required:
+        - FTPServer
+    FTPServerBody:
+      type: object
+      properties:
+        HostName:
+          type: string
+        IPAddress:
+          type: string
+      required:
+        - HostName
+        - IPAddress
+    FTPServerDetail:
+      type: object
+      properties:
+        FTPServer:
+          $ref: '#/components/schemas/FTPServerDetailBody'
+      required:
+        - FTPServer
+    FTPServerDetailBody:
+      type: object
+      properties:
+        HostName:
+          type: string
+        IPAddress:
+          type: string
+        User:
+          type: string
+        Password:
+          type: string
+      required:
+        - HostName
+        - IPAddress
+        - User
+        - Password
     CDROM:
       type: object
       properties:
@@ -1045,7 +1142,7 @@ components:
         DisplayOrder:
           type: integer
         FTPServer:
-          $ref: '#/components/schemas/FTPServer'
+          $ref: '#/components/schemas/FTPServerBody'
         ID:
           $ref: '#/components/schemas/ID'
         Name:

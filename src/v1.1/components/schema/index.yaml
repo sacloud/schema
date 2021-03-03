@@ -7,10 +7,6 @@ FindRequest:
   $ref: './common/FindRequest.yaml'
 FindResultEnvelope:
   $ref: './common/FindResultEnvelope.yaml'
-FTPServer:
-  $ref: './common/FTPServer.yaml'
-FTPServerDetail:
-  $ref: './common/FTPServerDetail.yaml'
 ID:
   $ref: './common/ID.yaml'
 IDEnvelope:
@@ -19,6 +15,16 @@ Scope:
   $ref: './common/Scope.yaml'
 VNCProxy:
   $ref: './common/VNCProxy.yaml'
+
+# ftp
+FTPServer:
+  $ref: './ftp/FTPServer.yaml'
+FTPServerBody:
+  $ref: './ftp/FTPServerBody.yaml'
+FTPServerDetail:
+  $ref: './ftp/FTPServerDetail.yaml'
+FTPServerDetailBody:
+  $ref: './ftp/FTPServerDetailBody.yaml'
 
 # cdrom
 CDROM:

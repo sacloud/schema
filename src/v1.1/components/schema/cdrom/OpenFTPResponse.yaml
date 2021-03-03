@@ -1,4 +1,3 @@
 allOf:
   - $ref: '../common/ActionResultEnvelope.yaml'
-  - $ref: './CDROMWrapper.yaml'
   - $ref: '../ftp/FTPServerDetail.yaml'
