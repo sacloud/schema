@@ -11,6 +11,6 @@ This project provides machine-readable schema definitions for SAKURA Cloud APIs.
 
 ## License
 
-`sacloud/schema` Copyright (C) 2021 The sacloud/schema Authors.
+`sacloud/schema` Copyright (C) 2021-2022 The sacloud/schema Authors.
 
 This project is published under [Apache 2.0 License](LICENSE.txt).
